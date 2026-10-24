@@ -3,25 +3,73 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Clínica API</title>
-  <link rel="stylesheet" href="estilo.css">
+  <title>Clínica Médica | Sistema de Atendimento</title>
+  <link rel="stylesheet" href="tema.css">
+  <style>
+    main { max-width: 960px; margin: 0 auto; padding: var(--esp-6) var(--esp-4) var(--esp-7); }
+    h1 { margin: 0 0 var(--esp-2); font-size: var(--fs-xl); font-weight: 650; }
+    .intro { margin: 0 0 var(--esp-6); color: var(--suave); max-width: 60ch; }
+    .grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: var(--esp-4); }
+    .atalho { display: flex; flex-direction: column; gap: var(--esp-2); padding: var(--esp-5); text-decoration: none; color: inherit; }
+    .atalho:hover { border-color: var(--marca); }
+    .atalho svg { width: 28px; height: 28px; color: var(--marca); }
+    .atalho strong { font-size: var(--fs-lg); }
+    .atalho span { color: var(--suave); font-size: var(--fs-sm); }
+    h2.titulo-secao { margin: var(--esp-6) 0 var(--esp-3); }
+    code { font-family: var(--fonte-mono); font-size: .85em; background: var(--superficie-2); padding: 2px 6px; border-radius: 4px; border: 1px solid var(--borda); }
+  </style>
 </head>
 <body>
-<header class="topo"><h1>Clínica API | Agendamento de Consultas</h1></header>
+<header class="barra">
+  <span class="marca">
+    <svg viewBox="0 0 48 48" aria-hidden="true">
+      <rect width="48" height="48" rx="12" fill="#0f766e"/>
+      <path d="M20 11h8v9h9v8h-9v9h-8v-9h-9v-8h9z" fill="#ffffff"/>
+    </svg>
+    <span>
+      <span class="marca-nome">Clínica Médica</span><br>
+      <span class="marca-sub">Sistema de atendimento</span>
+    </span>
+  </span>
+</header>
 <main>
-  <div class="card">
-    <h2>Clientes WebSocket</h2>
-    <ul>
-      <li><a href="painel.html">Painel de atendimento</a>: tela da sala de espera que mostra o paciente chamado e a situação dos consultórios em tempo real.</li>
-      <li><a href="recepcao.html">Recepção</a>: lista as consultas do dia e chama os pacientes.</li>
-    </ul>
-      </div>
-  <div class="card">
-    <h2>Ferramentas</h2>
-    <ul>
-      <li><a href="swagger-ui.html">Swagger UI</a>: documentação interativa da API REST</li>
-      <li><a href="h2-console">Console do H2</a>: JDBC URL <code>jdbc:h2:file:./data/clinica;AUTO_SERVER=TRUE</code>, usuário <code>sa</code>, sem senha</li>
-    </ul>
+  <h1>Agendamento e atendimento de consultas</h1>
+  <p class="intro">API REST com banco de dados relacional e atualização em tempo real via WebSocket.</p>
+
+  <h2 class="titulo-secao">Telas</h2>
+  <div class="grade">
+    <a class="cartao atalho" href="recepcao.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="3" y="4" width="18" height="17" rx="2"/><path d="M16 2v4M8 2v4M3 10h18"/>
+      </svg>
+      <strong>Recepção</strong>
+      <span>Consultas do dia, chamada de pacientes e controle do atendimento.</span>
+    </a>
+    <a class="cartao atalho" href="painel.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>
+      </svg>
+      <strong>Painel de atendimento</strong>
+      <span>Tela da sala de espera com o paciente chamado e a situação dos consultórios.</span>
+    </a>
+  </div>
+
+  <h2 class="titulo-secao">Ferramentas</h2>
+  <div class="grade">
+    <a class="cartao atalho" href="swagger-ui.html">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M16 18l6-6-6-6M8 6l-6 6 6 6"/>
+      </svg>
+      <strong>Swagger UI</strong>
+      <span>Documentação interativa da API REST.</span>
+    </a>
+    <a class="cartao atalho" href="h2-console">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <ellipse cx="12" cy="5" rx="9" ry="3"/><path d="M3 5v14c0 1.7 4 3 9 3s9-1.3 9-3V5M3 12c0 1.7 4 3 9 3s9-1.3 9-3"/>
+      </svg>
+      <strong>Console do banco H2</strong>
+      <span>JDBC URL <code>jdbc:h2:file:./data/clinica;AUTO_SERVER=TRUE</code>, usuário <code>sa</code>, sem senha.</span>
+    </a>
   </div>
 </main>
 </body>

@@ -1,153 +1,116 @@
 <!doctype html>
-<html lang="pt-BR">
+<html lang="pt-BR" data-tema="escuro">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Painel de Atendimento</title>
+  <title>Painel de Atendimento | Clínica Médica</title>
+  <link rel="stylesheet" href="tema.css">
   <style>
-    :root {
-      --fundo: #0a121c;
-      --superficie: #101b29;
-      --borda: #1f2e42;
-      --texto: #eaf0f6;
-      --suave: #8c9db3;
-      --destaque: #2bb5a3;
-      --destaque-forte: #1a8f80;
-      --aviso: #e0a33a;
-      --sombra: 0 10px 30px rgba(0, 0, 0, .35);
-    }
-    * { box-sizing: border-box; }
     html, body { height: 100%; }
     body {
-      margin: 0;
-      font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
-      background: var(--fundo);
-      color: var(--texto);
       display: grid;
-      grid-template-rows: auto minmax(0, 1fr) auto auto;
+      grid-template-rows: auto minmax(0, 1fr) auto;
       height: 100vh;
       overflow-x: hidden;
     }
 
     /* Cabeçalho */
     .cabecalho {
-      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
-      padding: 20px 40px; border-bottom: 1px solid var(--borda);
+      display: flex; align-items: center; justify-content: space-between; gap: var(--esp-4); flex-wrap: wrap;
+      padding: var(--esp-4) var(--esp-7); border-bottom: 1px solid var(--borda);
     }
-    .marca { display: flex; align-items: center; gap: 14px; }
-    .marca svg { width: 42px; height: 42px; flex: none; }
-    .marca .nome { font-size: 1.35rem; font-weight: 600; letter-spacing: .01em; }
-    .marca .sub { font-size: .85rem; color: var(--suave); text-transform: uppercase; letter-spacing: .14em; }
+    .cabecalho .marca svg { width: 44px; height: 44px; }
+    .cabecalho .marca-nome { font-size: 1.4rem; }
     .tempo { text-align: right; }
-    .tempo .hora { font-size: 2.2rem; font-weight: 300; font-variant-numeric: tabular-nums; line-height: 1; }
-    .tempo .data { font-size: .9rem; color: var(--suave); margin-top: 6px; }
+    .tempo .hora { font-size: 2.3rem; font-weight: 300; font-variant-numeric: tabular-nums; line-height: 1; }
+    .tempo .data { font-size: .95rem; color: var(--suave); margin-top: 6px; }
 
-    /* Área principal */
-    .principal {
-      display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 28px;
-      padding: 24px 40px; min-height: 0;
+    /* Conteúdo */
+    main {
+      display: grid; grid-template-rows: minmax(0, 1fr) auto; gap: var(--esp-5);
+      padding: clamp(16px, 2.5vh, 24px) var(--esp-7); min-height: 0;
     }
-    .cartao {
-      background: var(--superficie); border: 1px solid var(--borda); border-radius: 14px; box-shadow: var(--sombra);
-    }
-    .titulo-secao {
-      font-size: .8rem; font-weight: 600; color: var(--suave); text-transform: uppercase; letter-spacing: .16em;
-    }
+    .principal { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: var(--esp-5); min-height: 0; }
+    .cartao { border-radius: var(--raio-lg); }
 
+    /* Chamada atual */
     .chamada {
       position: relative; overflow: hidden;
       display: flex; flex-direction: column; justify-content: center;
-      padding: 40px 52px; min-height: 300px;
+      padding: clamp(20px, 4vh, 40px) 52px; min-height: 0;
     }
-    .chamada::before {
-      content: ""; position: absolute; inset: 0 auto 0 0; width: 6px; background: var(--destaque);
+    .chamada::before { content: ""; position: absolute; inset: 0 auto 0 0; width: 6px; background: var(--marca-clara); }
+    .chamada-topo { display: flex; align-items: center; justify-content: space-between; gap: var(--esp-3); flex-wrap: wrap; }
+    .repeticao {
+      font-size: var(--fs-sm); font-weight: 600; color: var(--st-chamada);
+      border: 1px solid currentColor; border-radius: var(--raio-pilula); padding: 6px 14px;
     }
-    .chamada .paciente {
-      font-size: clamp(2.6rem, 6vw, 5.6rem); font-weight: 700; line-height: 1.05;
-      margin: 18px 0 34px; letter-spacing: -.01em; overflow-wrap: anywhere;
+    .repeticao[hidden] { display: none; }
+    .paciente {
+      font-size: clamp(2.4rem, min(6vw, 9vh), 5.6rem); font-weight: 700; line-height: 1.05; letter-spacing: -.01em;
+      margin: clamp(8px, 2vh, 18px) 0 clamp(14px, 3vh, 34px); overflow-wrap: anywhere;
     }
     .chamada.vazia .paciente { color: var(--suave); font-weight: 400; font-size: clamp(1.8rem, 3.6vw, 3rem); }
-    .chamada.vazia .detalhes { display: none; }
-    .detalhes { display: flex; gap: 48px; flex-wrap: wrap; align-items: flex-end; }
-    .detalhes .rotulo { display: block; font-size: .85rem; color: var(--suave); margin-bottom: 8px; }
+    .chamada.vazia .detalhes, .chamada.vazia .repeticao { display: none; }
+    .detalhes { display: flex; gap: 48px; flex-wrap: wrap; align-items: flex-start; }
+    .detalhes .rotulo { display: block; font-size: .9rem; color: var(--suave); margin-bottom: var(--esp-2); }
     .sala {
-      display: inline-block; font-size: clamp(2rem, 4vw, 3.4rem); font-weight: 700; line-height: 1;
-      padding: 14px 26px; border-radius: 10px; background: var(--destaque); color: #04201c;
+      display: inline-block; font-size: clamp(1.8rem, min(4vw, 6vh), 3.4rem); font-weight: 700; line-height: 1;
+      padding: clamp(10px, 1.6vh, 14px) 26px; border-radius: var(--raio-md); background: var(--marca-clara); color: #04201c;
     }
-    .medico { font-size: clamp(1.2rem, 2vw, 1.7rem); font-weight: 500; }
-    .repeticao {
-      position: absolute; top: 40px; right: 48px; font-size: .85rem; font-weight: 600; color: var(--aviso);
-      border: 1px solid var(--aviso); border-radius: 999px; padding: 6px 14px; display: none;
-    }
-    .repeticao.visivel { display: block; }
+    .medico { display: block; font-size: clamp(1.3rem, 2.2vw, 1.9rem); font-weight: 500; padding-top: 14px; }
 
-    /* Destaque discreto quando chega uma nova chamada */
     .chamada.nova { animation: realce 2.4s ease-out; }
     .chamada.nova .paciente, .chamada.nova .detalhes { animation: entrada .6s ease-out; }
     @keyframes realce {
-      0% { background: #17463f; border-color: var(--destaque); }
+      0% { background: #17463f; border-color: var(--marca-clara); }
       100% { background: var(--superficie); border-color: var(--borda); }
     }
-    @keyframes entrada {
-      from { opacity: 0; transform: translateY(14px); }
-      to { opacity: 1; transform: none; }
-    }
+    @keyframes entrada { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
 
-    .anteriores { padding: 28px 28px 12px; display: flex; flex-direction: column; min-height: 0; }
+    /* Chamadas anteriores */
+    .anteriores { padding: clamp(20px, 3vh, 32px) var(--esp-6) var(--esp-3); min-height: 0; overflow: hidden; }
     .anteriores ol { list-style: none; margin: 18px 0 0; padding: 0; }
     .anteriores li {
-      display: grid; grid-template-columns: 56px 1fr auto; gap: 14px; align-items: center;
-      padding: 16px 0; border-top: 1px solid var(--borda);
+      display: grid; grid-template-columns: 56px minmax(0, 1fr) auto; gap: 14px; align-items: center;
+      padding: clamp(8px, 1.5vh, 16px) 0; border-top: 1px solid var(--borda);
     }
     .anteriores li:first-child { border-top: 0; }
-    .anteriores .h { color: var(--suave); font-variant-numeric: tabular-nums; font-size: .95rem; }
+    .anteriores .h { color: var(--suave); font-variant-numeric: tabular-nums; }
     .anteriores .n { font-size: 1.15rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
     .anteriores .s {
-      font-size: .9rem; font-weight: 600; color: var(--destaque); border: 1px solid var(--destaque-forte);
-      padding: 4px 10px; border-radius: 6px; white-space: nowrap;
+      font-size: .9rem; font-weight: 600; color: var(--marca-clara); border: 1px solid var(--marca-clara);
+      padding: 4px 10px; border-radius: var(--raio-sm); white-space: nowrap;
     }
     .anteriores li.sem-itens { display: block; color: var(--suave); }
 
-    /* Situação das salas */
-    .salas { padding: 0 40px 24px; }
-    .salas .grade {
-      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 14px;
-    }
-    .sala-card { padding: 18px 20px; display: flex; flex-direction: column; gap: 6px; }
-    .sala-card .topo { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    /* Consultórios */
+    .salas-grade { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: var(--esp-4); margin-top: 14px; }
+    .sala-card { padding: clamp(12px, 1.8vh, 18px) 20px; display: flex; flex-direction: column; gap: 6px; border-radius: var(--raio-md); }
+    .sala-card .topo { display: flex; justify-content: space-between; align-items: center; gap: var(--esp-2); }
     .sala-card .nome-sala { font-size: 1.15rem; font-weight: 700; }
-    .sala-card .prof { color: var(--suave); font-size: .92rem; }
-    .sala-card .prox { color: var(--suave); font-size: .82rem; }
-    .situacao { font-size: .78rem; font-weight: 600; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
-    .situacao.livre { background: #1b2a3c; color: #a9b8ca; }
-    .situacao.aguardando { background: #3a2c12; color: #f2c46d; }
-    .situacao.atendendo { background: #10392f; color: #5fe0c8; }
+    .sala-card .prof { color: var(--suave); }
+    .sala-card .prox { color: var(--suave); font-size: var(--fs-sm); }
 
     /* Rodapé */
     .rodape {
-      display: flex; align-items: center; gap: 24px; padding: 14px 40px;
-      border-top: 1px solid var(--borda); background: #0c1622; color: var(--suave); font-size: .95rem;
+      display: flex; align-items: center; gap: var(--esp-5); padding: var(--esp-3) var(--esp-7);
+      border-top: 1px solid var(--borda); background: var(--superficie-2); color: var(--suave);
     }
-    .conexao { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; font-size: .85rem; }
-    .conexao i { width: 8px; height: 8px; border-radius: 50%; background: #d9534f; }
-    .conexao.on i { background: var(--destaque); }
     .aviso { flex: 1; min-width: 0; transition: opacity .5s; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-    .controles { display: flex; gap: 8px; }
-    .controles button {
-      display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
-      background: transparent; color: var(--suave); border: 1px solid var(--borda);
-      border-radius: 8px; padding: 7px 12px; font: inherit; font-size: .85rem;
-    }
-    .controles button:hover { color: var(--texto); border-color: #33465f; }
-    .controles button.ativo { color: var(--destaque); border-color: var(--destaque-forte); }
-    .controles svg { width: 16px; height: 16px; }
+    .controles { display: flex; gap: var(--esp-2); transition: opacity .4s; }
+    /* Em exibição na TV os controles somem após alguns segundos sem uso do mouse ou teclado */
+    body.ocioso .controles { opacity: 0; }
+    body.ocioso { cursor: none; }
+    .controles:focus-within { opacity: 1 !important; }
 
     @media (max-width: 900px) {
       body { height: auto; min-height: 100vh; }
-      .principal { grid-template-columns: 1fr; padding: 20px 16px; }
-      .cabecalho, .salas, .rodape { padding-left: 16px; padding-right: 16px; }
-      .chamada { padding: 32px 28px; min-height: 280px; }
-      .repeticao { top: 18px; right: 18px; }
+      .principal { grid-template-columns: 1fr; }
+      .cabecalho, main, .rodape { padding-left: var(--esp-4); padding-right: var(--esp-4); }
+      .chamada { padding: var(--esp-6) 28px; min-height: 260px; }
+      .paciente { font-size: clamp(2.2rem, 9vw, 3.4rem); }
+      .sala { font-size: 2rem; }
       .rodape { flex-wrap: wrap; }
       .aviso { flex-basis: 100%; order: 3; white-space: normal; }
     }
@@ -162,8 +125,8 @@
       <path d="M20 11h8v9h9v8h-9v9h-8v-9h-9v-8h9z" fill="#0a121c"/>
     </svg>
     <div>
-      <div class="nome">Clínica Médica</div>
-      <div class="sub">Painel de atendimento</div>
+      <div class="marca-nome">Clínica Médica</div>
+      <div class="marca-sub">Painel de atendimento</div>
     </div>
   </div>
   <div class="tempo">
@@ -172,46 +135,50 @@
   </div>
 </header>
 
-<main class="principal">
-  <section class="cartao chamada vazia" id="chamada" aria-live="assertive">
-    <span class="titulo-secao">Chamada atual</span>
-    <span class="repeticao" id="repeticao"></span>
-    <div class="paciente" id="paciente">Aguardando a próxima chamada</div>
-    <div class="detalhes">
-      <div>
-        <span class="rotulo">Dirija-se à</span>
-        <span class="sala" id="sala"></span>
+<main>
+  <div class="principal">
+    <section class="cartao chamada vazia" id="chamada" aria-labelledby="tituloChamada" aria-live="assertive" aria-atomic="true">
+      <div class="chamada-topo">
+        <h1 class="titulo-secao" id="tituloChamada">Chamada atual</h1>
+        <span class="repeticao" id="repeticao" hidden></span>
       </div>
-      <div>
-        <span class="rotulo">Profissional</span>
-        <span class="medico" id="medico"></span>
+      <div class="paciente" id="paciente">Aguardando a próxima chamada</div>
+      <div class="detalhes">
+        <div>
+          <span class="rotulo">Dirija-se à</span>
+          <span class="sala" id="sala"></span>
+        </div>
+        <div>
+          <span class="rotulo">Profissional</span>
+          <span class="medico" id="medico"></span>
+        </div>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <aside class="cartao anteriores">
-    <span class="titulo-secao">Chamadas anteriores</span>
-    <ol id="anteriores"><li class="sem-itens">Nenhuma chamada registrada.</li></ol>
-  </aside>
+    <section class="cartao anteriores" aria-labelledby="tituloAnteriores">
+      <h2 class="titulo-secao" id="tituloAnteriores">Chamadas anteriores</h2>
+      <ol id="anteriores"><li class="sem-itens">Nenhuma chamada registrada.</li></ol>
+    </section>
+  </div>
+
+  <section aria-labelledby="tituloSalas">
+    <h2 class="titulo-secao" id="tituloSalas">Consultórios</h2>
+    <div class="salas-grade" id="salas"></div>
+  </section>
 </main>
 
-<section class="salas">
-  <span class="titulo-secao">Consultórios</span>
-  <div class="grade" id="salas"></div>
-</section>
-
 <footer class="rodape">
-  <span class="conexao" id="conexao"><i></i><span id="conexaoTexto">Conectando</span></span>
+  <span class="conexao" id="conexao" role="status"><i aria-hidden="true"></i><span id="conexaoTexto">Conectando</span></span>
   <span class="aviso" id="aviso"></span>
   <div class="controles">
-    <button id="btnSom" type="button" title="Ativar aviso sonoro">
+    <button class="btn btn-fantasma" id="btnSom" type="button" aria-pressed="false">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M11 5 6 9H2v6h4l5 4V5z"/>
         <path id="iconeSom" d="M23 9l-6 6M17 9l6 6"/>
       </svg>
-      <span id="somTexto">Som desligado</span>
+      <span>Aviso sonoro</span>
     </button>
-    <button id="btnTela" type="button" title="Tela cheia">
+    <button class="btn btn-fantasma" id="btnTela" type="button">
       <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
         <path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/>
       </svg>
@@ -272,7 +239,7 @@
     $('sala').textContent = c.medico.sala || 'Recepção';
     $('medico').textContent = c.medico.nome;
     $('repeticao').textContent = vezes + 'ª chamada';
-    $('repeticao').classList.toggle('visivel', vezes > 1);
+    $('repeticao').hidden = vezes < 2;
 
     // Se o paciente já estava na lista (nova chamada), remove a entrada antiga
     const repetida = anteriores.findIndex(a => a.id === c.id);
@@ -322,24 +289,25 @@
   }
 
   function desenharSalas() {
-    const agora = new Date();
+    const agora = Date.now();
     const ordenados = medicos.filter(m => m.sala)
       .sort((a, b) => a.sala.localeCompare(b.sala, 'pt-BR', { numeric: true }));
     const cards = ordenados.map(m => {
       const doMedico = consultasHoje.filter(c => c.medico.id === m.id);
-      let situacao = ['livre', 'Disponível'];
-      if (doMedico.some(c => c.status === 'EM_ATENDIMENTO')) situacao = ['atendendo', 'Em atendimento'];
-      else if (doMedico.some(c => c.status === 'CHAMADA')) situacao = ['aguardando', 'Aguardando paciente'];
+      // Usa as mesmas cores de status da recepção
+      let situacao = ['LIVRE', 'Disponível'];
+      if (doMedico.some(c => c.status === 'EM_ATENDIMENTO')) situacao = ['EM_ATENDIMENTO', 'Em atendimento'];
+      else if (doMedico.some(c => c.status === 'CHAMADA')) situacao = ['CHAMADA', 'Aguardando paciente'];
 
       const proxima = doMedico
-        .filter(c => c.status === 'AGENDADA' && new Date(c.dataHora) >= new Date(agora.getTime() - 30 * 60000))
+        .filter(c => c.status === 'AGENDADA' && new Date(c.dataHora).getTime() >= agora - 30 * 60000)
         .sort((a, b) => a.dataHora.localeCompare(b.dataHora))[0];
 
       const card = document.createElement('div');
       card.className = 'cartao sala-card';
       const topo = document.createElement('div');
       topo.className = 'topo';
-      topo.append(span('nome-sala', m.sala), span('situacao ' + situacao[0], situacao[1]));
+      topo.append(span('nome-sala', m.sala), span('pilula st-' + situacao[0], situacao[1]));
       card.append(topo, span('prof', m.nome),
                   span('prox', proxima ? 'Próximo horário: ' + horaCurta(proxima.dataHora) : 'Nenhum horário pendente hoje'));
       return card;
@@ -375,8 +343,7 @@
 
   $('btnSom').onclick = () => {
     somAtivo = !somAtivo;
-    $('btnSom').classList.toggle('ativo', somAtivo);
-    $('somTexto').textContent = somAtivo ? 'Som ligado' : 'Som desligado';
+    $('btnSom').setAttribute('aria-pressed', String(somAtivo));
     // Ondas sonoras quando ligado, "X" quando desligado
     $('iconeSom').setAttribute('d', somAtivo
       ? 'M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14'
@@ -388,12 +355,21 @@
     else document.documentElement.requestFullscreen().catch(() => {});
   };
 
+  // ---------- Controles somem quando o painel fica sem uso ----------
+  let timerOcioso;
+  function marcarAtividade() {
+    document.body.classList.remove('ocioso');
+    clearTimeout(timerOcioso);
+    timerOcioso = setTimeout(() => document.body.classList.add('ocioso'), 4000);
+  }
+  ['mousemove', 'keydown', 'touchstart'].forEach(e => document.addEventListener(e, marcarAtividade, { passive: true }));
+  marcarAtividade();
+
   // ---------- Relógio e avisos ----------
   function atualizarRelogio() {
     const agora = new Date();
     $('hora').textContent = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-    const data = agora.toLocaleDateString('pt-BR',
-      { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    const data = agora.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
     $('data').textContent = data.charAt(0).toUpperCase() + data.slice(1);
   }
 

@@ -55,8 +55,4 @@ public class PainelWebSocketHandler extends TextWebSocketHandler {
             }
         });
     }
-
-    public int totalConexoes() {
-        return sessoes.size();
-    }
 }

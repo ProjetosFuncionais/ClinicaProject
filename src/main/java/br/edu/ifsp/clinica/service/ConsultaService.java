@@ -15,12 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDate;
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class ConsultaService {
-
-    private static final Set<StatusConsulta> FINALIZADOS = Set.of(StatusConsulta.CONCLUIDA, StatusConsulta.CANCELADA);
 
     private final ConsultaRepository repository;
     private final MedicoService medicoService;
@@ -71,7 +68,7 @@ public class ConsultaService {
     @Transactional
     public ConsultaResponse atualizar(Long id, ConsultaRequest req) {
         Consulta c = buscarEntidade(id);
-        if (FINALIZADOS.contains(c.getStatus())) {
+        if (c.getStatus().isFinal()) {
             throw new RegraNegocioException("Consulta " + c.getStatus() + " não pode ser alterada");
         }
         preencher(c, req, id);
@@ -87,8 +84,13 @@ public class ConsultaService {
     @Transactional
     public ConsultaResponse alterarStatus(Long id, StatusConsulta novoStatus) {
         Consulta c = buscarEntidade(id);
-        if (FINALIZADOS.contains(c.getStatus())) {
-            throw new RegraNegocioException("Consulta já está " + c.getStatus() + " e não pode mudar de status");
+        StatusConsulta atual = c.getStatus();
+        if (atual.isFinal()) {
+            throw new RegraNegocioException("Consulta já está " + atual + " e não pode mudar de status");
+        }
+        if (!atual.podeMudarPara(novoStatus)) {
+            throw new RegraNegocioException("Transição de status inválida: " + atual + " para " + novoStatus
+                    + ". Permitidos: " + atual.proximosPermitidos());
         }
         c.setStatus(novoStatus);
         ConsultaResponse resp = ConsultaResponse.from(c);

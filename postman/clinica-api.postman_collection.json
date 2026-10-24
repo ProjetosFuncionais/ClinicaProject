@@ -1181,6 +1181,51 @@
           }
         },
         {
+          "name": "31b - [Erro] Concluir consulta que ainda não foi atendida",
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "type": "text/javascript",
+                "exec": [
+                  "pm.test(\"Status 409\", () => pm.response.to.have.status(409));",
+                  "pm.test(\"Corpo de erro padrão\", () => { const j = pm.response.json(); pm.expect(j).to.have.property(\"mensagem\"); pm.expect(j).to.have.property(\"status\"); });",
+                  "pm.test(\"Informa transição inválida\", () => pm.expect(pm.response.json().mensagem).to.include(\"Transição de status inválida\"));"
+                ]
+              }
+            }
+          ],
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/consultas/{{consultaId}}/status",
+              "host": [
+                "{{baseUrl}}"
+              ],
+              "path": [
+                "consultas",
+                "{{consultaId}}",
+                "status"
+              ]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"status\": \"CONCLUIDA\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            }
+          }
+        },
+        {
           "name": "32 - Consultas do médico (1:N)",
           "event": [
             {

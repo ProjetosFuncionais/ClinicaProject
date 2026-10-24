@@ -3,131 +3,334 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Recepção</title>
-  <link rel="stylesheet" href="estilo.css">
+  <title>Recepção | Clínica Médica</title>
+  <link rel="stylesheet" href="tema.css">
+  <style>
+    main { max-width: 1180px; margin: 0 auto; padding: var(--esp-5) var(--esp-4) var(--esp-7); }
+
+    .cabecalho-pagina { display: flex; align-items: flex-end; justify-content: space-between; gap: var(--esp-4); flex-wrap: wrap; margin-bottom: var(--esp-5); }
+    .cabecalho-pagina h1 { margin: 0; font-size: var(--fs-xl); font-weight: 650; }
+    .cabecalho-pagina p { margin: var(--esp-1) 0 0; color: var(--suave); }
+    .filtros { display: flex; align-items: center; gap: var(--esp-2); flex-wrap: wrap; }
+
+    /* Resumo do dia */
+    .resumo { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: var(--esp-3); margin: 0 0 var(--esp-5); padding: 0; list-style: none; }
+    .resumo li { padding: var(--esp-4); display: flex; flex-direction: column; gap: var(--esp-1); border-left: 4px solid var(--borda); }
+    .resumo .numero { font-size: 1.9rem; font-weight: 650; line-height: 1; font-variant-numeric: tabular-nums; }
+    .resumo .rotulo { color: var(--suave); font-size: var(--fs-sm); }
+    .resumo .r-AGENDADA { border-left-color: var(--st-agendada); }
+    .resumo .r-CHAMADA { border-left-color: #d97706; }
+    .resumo .r-EM_ATENDIMENTO { border-left-color: var(--st-atendimento); }
+    .resumo .r-CONCLUIDA { border-left-color: var(--st-concluida); }
+
+    /* Alerta de erro */
+    .alerta {
+      display: none; margin: 0 0 var(--esp-4); padding: var(--esp-3) var(--esp-4);
+      border: 1px solid #fca5a5; border-left: 4px solid var(--perigo); border-radius: var(--raio-sm);
+      background: var(--perigo-fundo); color: #7f1d1d;
+    }
+    .alerta.visivel { display: block; }
+
+    /* Tabela de consultas */
+    .agenda { overflow: hidden; }
+    .agenda-topo { display: flex; justify-content: space-between; align-items: center; padding: var(--esp-4) var(--esp-5); border-bottom: 1px solid var(--borda); }
+    .tabela-rolagem { overflow-x: auto; }
+    table { width: 100%; border-collapse: collapse; }
+    th, td { text-align: left; padding: var(--esp-3) var(--esp-5); border-bottom: 1px solid var(--borda); vertical-align: middle; }
+    tbody tr:last-child td { border-bottom: 0; }
+    th { font-size: var(--fs-xs); font-weight: 600; color: var(--suave); text-transform: uppercase; letter-spacing: .08em; background: var(--superficie-2); }
+    td.hora { font-variant-numeric: tabular-nums; font-weight: 600; white-space: nowrap; width: 1%; }
+    .atraso { display: block; font-size: var(--fs-xs); font-weight: 600; color: var(--st-chamada); }
+    .paciente-nome { font-weight: 600; }
+    .secundario { display: block; color: var(--suave); font-size: var(--fs-sm); }
+    tr.linha-CHAMADA td:first-child { box-shadow: inset 4px 0 0 #d97706; }
+    tr.linha-EM_ATENDIMENTO td:first-child { box-shadow: inset 4px 0 0 var(--st-atendimento); }
+    tr.linha-CONCLUIDA td, tr.linha-CANCELADA td { color: var(--suave); }
+    tr.linha-CANCELADA .paciente-nome { text-decoration: line-through; }
+    .acoes { display: flex; gap: var(--esp-2); justify-content: flex-end; flex-wrap: wrap; }
+    td.col-acoes { text-align: right; }
+    .finalizada { color: var(--suave); font-size: var(--fs-sm); }
+    .vazio { padding: var(--esp-6) var(--esp-5); text-align: center; color: var(--suave); }
+
+    /* Atividade em tempo real */
+    .atividade { margin-top: var(--esp-5); padding: var(--esp-4) var(--esp-5); }
+    .atividade ol { list-style: none; margin: var(--esp-3) 0 0; padding: 0; max-height: 240px; overflow: auto; }
+    .atividade li { display: flex; gap: var(--esp-3); align-items: center; padding: var(--esp-2) 0; border-top: 1px solid var(--borda); font-size: var(--fs-sm); }
+    .atividade li:first-child { border-top: 0; }
+    .atividade time { font-family: var(--fonte-mono); color: var(--suave); }
+    .atividade .sem-eventos { color: var(--suave); }
+
+    @media (max-width: 760px) {
+      th, td { padding: var(--esp-3); }
+      thead { display: none; }
+      tbody tr { display: grid; grid-template-columns: auto 1fr; gap: var(--esp-1) var(--esp-3); padding: var(--esp-3); border-bottom: 1px solid var(--borda); }
+      tbody td { border: 0; padding: 0; }
+      td.col-medico, td.col-status { grid-column: 2; }
+      td.col-acoes { grid-column: 1 / -1; text-align: left; }
+      .acoes { justify-content: flex-start; }
+      tr.linha-CHAMADA td:first-child, tr.linha-EM_ATENDIMENTO td:first-child { box-shadow: none; }
+    }
+  </style>
 </head>
 <body>
-<header class="topo">
-  <h1>Recepção | Consultas do dia</h1>
-  <span id="statusWs" class="status-ws"><span class="bolinha"></span><span id="statusTexto">Desconectado</span></span>
+<header class="barra">
+  <a class="marca" href="index.html">
+    <svg viewBox="0 0 48 48" aria-hidden="true">
+      <rect width="48" height="48" rx="12" fill="#0f766e"/>
+      <path d="M20 11h8v9h9v8h-9v9h-8v-9h-9v-8h9z" fill="#ffffff"/>
+    </svg>
+    <span>
+      <span class="marca-nome">Clínica Médica</span><br>
+      <span class="marca-sub">Recepção</span>
+    </span>
+  </a>
+  <div class="barra-acoes">
+    <span class="conexao" id="conexao" role="status"><i aria-hidden="true"></i><span id="conexaoTexto">Conectando</span></span>
+    <a class="btn btn-secundario" href="painel.html" target="_blank" rel="noopener">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <rect x="2" y="4" width="20" height="13" rx="2"/><path d="M8 21h8M12 17v4"/>
+      </svg>
+      Abrir painel<span class="sr-only"> (abre em nova aba)</span>
+    </a>
+  </div>
 </header>
+
 <main>
-  <div class="card">
-    <label>Data: <input type="date" id="data"></label>
-    <button class="sec" id="btnRecarregar">Recarregar</button>
-    <a href="painel.html" target="_blank" style="margin-left:8px">Abrir painel de atendimento</a>
-    <p class="mensagem" id="mensagem"></p>
-    <div class="tabela-scroll">
-      <table>
-        <thead><tr><th>Hora</th><th>Paciente</th><th>Médico</th><th>Sala</th><th>Status</th><th>Ações</th></tr></thead>
-        <tbody id="linhas"><tr><td colspan="6">Carregando...</td></tr></tbody>
-      </table>
+  <div class="cabecalho-pagina">
+    <div>
+      <h1>Consultas do dia</h1>
+      <p id="dataExtenso"></p>
+    </div>
+    <div class="filtros">
+      <label class="campo" for="data">Data <input type="date" id="data"></label>
+      <button class="btn btn-secundario" id="btnHoje" type="button">Hoje</button>
     </div>
   </div>
-  <div class="card">
-    <h2 style="margin-top:0">Mensagens recebidas pelo WebSocket</h2>
-    <pre class="log" id="log">Aguardando eventos...</pre>
-  </div>
+
+  <ul class="resumo" aria-label="Resumo do dia">
+    <li class="cartao r-AGENDADA"><span class="numero" id="qAGENDADA">0</span><span class="rotulo">Aguardando chamada</span></li>
+    <li class="cartao r-CHAMADA"><span class="numero" id="qCHAMADA">0</span><span class="rotulo">Chamados</span></li>
+    <li class="cartao r-EM_ATENDIMENTO"><span class="numero" id="qEM_ATENDIMENTO">0</span><span class="rotulo">Em atendimento</span></li>
+    <li class="cartao r-CONCLUIDA"><span class="numero" id="qCONCLUIDA">0</span><span class="rotulo">Concluídas</span></li>
+  </ul>
+
+  <div class="alerta" id="alerta" role="alert"></div>
+
+  <section class="cartao agenda" aria-labelledby="tituloAgenda">
+    <div class="agenda-topo">
+      <h2 class="titulo-secao" id="tituloAgenda">Agenda</h2>
+      <span class="secundario" id="totalConsultas"></span>
+    </div>
+    <div class="tabela-rolagem">
+      <table>
+        <caption class="sr-only">Consultas da data selecionada, com status e ações disponíveis</caption>
+        <thead>
+          <tr>
+            <th scope="col">Hora</th>
+            <th scope="col">Paciente</th>
+            <th scope="col">Médico</th>
+            <th scope="col">Status</th>
+            <th scope="col"><span class="sr-only">Ações</span></th>
+          </tr>
+        </thead>
+        <tbody id="linhas"><tr><td colspan="5" class="vazio">Carregando consultas...</td></tr></tbody>
+      </table>
+    </div>
+  </section>
+
+  <section class="cartao atividade" aria-labelledby="tituloAtividade">
+    <h2 class="titulo-secao" id="tituloAtividade">Atividade em tempo real (WebSocket)</h2>
+    <ol id="atividade" aria-live="polite"><li class="sem-eventos">Nenhum evento recebido ainda.</li></ol>
+  </section>
 </main>
 
 <script>
   const API = '/api/consultas';
   const WS_URL = (location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/ws/painel';
-  const campoData = document.getElementById('data');
-  campoData.value = new Date().toLocaleDateString('sv-SE'); // formato AAAA-MM-DD
+  const ROTULO_STATUS = {
+    AGENDADA: 'Agendada', CHAMADA: 'Chamada', EM_ATENDIMENTO: 'Em atendimento',
+    CONCLUIDA: 'Concluída', CANCELADA: 'Cancelada'
+  };
+  const $ = (id) => document.getElementById(id);
+  const hoje = () => new Date().toLocaleDateString('sv-SE'); // AAAA-MM-DD
+  const horaCurta = (d) => new Date(d).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+  const campoData = $('data');
+  campoData.value = hoje();
   let consultas = [];
 
+  // ---------- Carregamento ----------
   async function carregar() {
-    mostrarErro('');
-    const resp = await fetch(`${API}?data=${campoData.value}`);
-    consultas = await resp.json();
-    desenhar();
+    esconderErro();
+    const d = new Date(campoData.value + 'T12:00:00');
+    const texto = d.toLocaleDateString('pt-BR', { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    $('dataExtenso').textContent = texto.charAt(0).toUpperCase() + texto.slice(1);
+    try {
+      const resp = await fetch(`${API}?data=${campoData.value}`);
+      consultas = await resp.json();
+      desenhar();
+    } catch (e) {
+      mostrarErro('Não foi possível carregar as consultas. Verifique se a API está em execução.');
+    }
   }
 
+  // ---------- Tabela ----------
   function desenhar() {
-    const corpo = document.getElementById('linhas');
+    atualizarResumo();
+    const corpo = $('linhas');
+    $('totalConsultas').textContent = consultas.length === 1 ? '1 consulta' : `${consultas.length} consultas`;
     if (consultas.length === 0) {
-      corpo.innerHTML = '<tr><td colspan="6">Nenhuma consulta nesta data.</td></tr>';
+      corpo.innerHTML = '<tr><td colspan="5" class="vazio">Nenhuma consulta agendada para esta data.</td></tr>';
       return;
     }
-    corpo.replaceChildren(...consultas.map(c => {
-      const tr = document.createElement('tr');
-      const hora = new Date(c.dataHora).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-      [hora, c.paciente.nome, c.medico.nome, c.medico.sala || '-'].forEach(t => {
-        const td = document.createElement('td'); td.textContent = t; tr.appendChild(td);
-      });
-      const tdStatus = document.createElement('td');
-      tdStatus.innerHTML = `<span class="tag ${c.status}">${c.status.replace('_', ' ')}</span>`;
-      tr.appendChild(tdStatus);
-
-      const tdAcoes = document.createElement('td');
-      const acoes = document.createElement('div'); acoes.className = 'acoes';
-      const finalizada = c.status === 'CONCLUIDA' || c.status === 'CANCELADA';
-      acoes.append(
-        botao('Chamar', '', () => acao(`${API}/${c.id}/chamar`, 'POST'),
-              !(c.status === 'AGENDADA' || c.status === 'CHAMADA')),
-        botao('Atender', 'sec', () => mudarStatus(c.id, 'EM_ATENDIMENTO'), finalizada || c.status === 'EM_ATENDIMENTO'),
-        botao('Concluir', 'sec', () => mudarStatus(c.id, 'CONCLUIDA'), finalizada),
-        botao('Cancelar', 'perigo', () => mudarStatus(c.id, 'CANCELADA'), finalizada));
-      tdAcoes.appendChild(acoes);
-      tr.appendChild(tdAcoes);
-      return tr;
-    }));
+    corpo.replaceChildren(...consultas.map(linha));
   }
 
-  function botao(texto, classe, onclick, desabilitado) {
-    const b = document.createElement('button');
-    b.textContent = texto; b.className = classe; b.onclick = onclick; b.disabled = desabilitado;
-    return b;
+  function linha(c) {
+    const tr = document.createElement('tr');
+    tr.className = 'linha-' + c.status;
+
+    const tdHora = celula('hora', horaCurta(c.dataHora));
+    if (estaAtrasada(c)) tdHora.appendChild(el('span', 'atraso', 'Atrasada'));
+
+    const tdPaciente = document.createElement('td');
+    tdPaciente.appendChild(el('span', 'paciente-nome', c.paciente.nome));
+
+    const tdMedico = document.createElement('td');
+    tdMedico.className = 'col-medico';
+    tdMedico.append(el('span', '', c.medico.nome), el('span', 'secundario', c.medico.sala || 'Sem sala'));
+
+    const tdStatus = document.createElement('td');
+    tdStatus.className = 'col-status';
+    tdStatus.appendChild(el('span', 'pilula st-' + c.status, ROTULO_STATUS[c.status]));
+
+    const tdAcoes = document.createElement('td');
+    tdAcoes.className = 'col-acoes';
+    tdAcoes.appendChild(acoesPara(c));
+
+    tr.append(tdHora, tdPaciente, tdMedico, tdStatus, tdAcoes);
+    return tr;
   }
 
-  function mudarStatus(id, status) {
-    return acao(`${API}/${id}/status`, 'PATCH', { status });
+  // Mostra apenas as ações válidas para o status atual (mesmas regras da API)
+  function acoesPara(c) {
+    const div = el('div', 'acoes', '');
+    const nome = c.paciente.nome;
+    const chamar = () => enviar(`${API}/${c.id}/chamar`, 'POST');
+    const status = (s) => () => enviar(`${API}/${c.id}/status`, 'PATCH', { status: s });
+    const cancelar = () => {
+      if (confirm(`Cancelar a consulta de ${nome} às ${horaCurta(c.dataHora)}?`)) status('CANCELADA')();
+    };
+
+    switch (c.status) {
+      case 'AGENDADA':
+        div.append(
+          botao('Chamar', 'btn-primario', chamar, `Chamar ${nome}`),
+          botao('Atender', 'btn-secundario', status('EM_ATENDIMENTO'), `Atender ${nome}`),
+          botao('Cancelar', 'btn-perigo', cancelar, `Cancelar consulta de ${nome}`));
+        break;
+      case 'CHAMADA':
+        div.append(
+          botao('Atender', 'btn-primario', status('EM_ATENDIMENTO'), `Atender ${nome}`),
+          botao('Chamar de novo', 'btn-secundario', chamar, `Chamar de novo ${nome}`),
+          botao('Não compareceu', 'btn-secundario', status('AGENDADA'), `Não compareceu: ${nome}, volta para a fila`),
+          botao('Cancelar', 'btn-perigo', cancelar, `Cancelar consulta de ${nome}`));
+        break;
+      case 'EM_ATENDIMENTO':
+        div.append(botao('Concluir', 'btn-primario', status('CONCLUIDA'), `Concluir atendimento de ${nome}`));
+        break;
+      default:
+        div.appendChild(el('span', 'finalizada', 'Finalizada'));
+    }
+    return div;
   }
 
-  // Faz a chamada REST. A tabela é atualizada pela mensagem que volta pelo WebSocket.
-  async function acao(url, metodo, corpo) {
-    mostrarErro('');
-    const resp = await fetch(url, {
-      method: metodo,
-      headers: corpo ? { 'Content-Type': 'application/json' } : {},
-      body: corpo ? JSON.stringify(corpo) : undefined
+  function estaAtrasada(c) {
+    return c.status === 'AGENDADA' && campoData.value === hoje()
+        && new Date(c.dataHora).getTime() < Date.now() - 15 * 60000;
+  }
+
+  function atualizarResumo() {
+    ['AGENDADA', 'CHAMADA', 'EM_ATENDIMENTO', 'CONCLUIDA'].forEach(s => {
+      $('q' + s).textContent = consultas.filter(c => c.status === s).length;
     });
-    if (!resp.ok) {
-      const erro = await resp.json().catch(() => ({}));
-      mostrarErro(erro.mensagem || `Erro HTTP ${resp.status}`);
+  }
+
+  // ---------- Ações (REST) ----------
+  // A tabela é atualizada pela mensagem que volta pelo WebSocket
+  async function enviar(url, metodo, corpo) {
+    esconderErro();
+    try {
+      const resp = await fetch(url, {
+        method: metodo,
+        headers: corpo ? { 'Content-Type': 'application/json' } : {},
+        body: corpo ? JSON.stringify(corpo) : undefined
+      });
+      if (!resp.ok) {
+        const erro = await resp.json().catch(() => ({}));
+        mostrarErro(erro.mensagem || `A operação falhou (HTTP ${resp.status}).`);
+      }
+    } catch (e) {
+      mostrarErro('Sem comunicação com a API.');
     }
   }
 
-  function mostrarErro(texto) { document.getElementById('mensagem').textContent = texto; }
+  function mostrarErro(texto) { const a = $('alerta'); a.textContent = texto; a.classList.add('visivel'); }
+  function esconderErro() { const a = $('alerta'); a.textContent = ''; a.classList.remove('visivel'); }
 
+  // ---------- WebSocket ----------
   function conectar() {
     const ws = new WebSocket(WS_URL);
-    ws.onopen = () => definirStatus(true);
-    ws.onclose = () => { definirStatus(false); setTimeout(conectar, 2000); };
+    ws.onopen = () => definirConexao(true);
+    ws.onclose = () => { definirConexao(false); setTimeout(conectar, 3000); };
     ws.onmessage = (evento) => {
       if (evento.data === 'pong') return;
       const msg = JSON.parse(evento.data);
-      registrar(msg);
+      registrarAtividade(msg);
       const i = consultas.findIndex(c => c.id === msg.consulta.id);
       if (i >= 0) { consultas[i] = msg.consulta; desenhar(); }
     };
   }
 
-  function definirStatus(conectado) {
-    document.getElementById('statusWs').classList.toggle('on', conectado);
-    document.getElementById('statusTexto').textContent = conectado ? 'WebSocket conectado' : 'Reconectando...';
+  function definirConexao(online) {
+    $('conexao').classList.toggle('on', online);
+    $('conexaoTexto').textContent = online ? 'Tempo real ativo' : 'Reconectando';
   }
 
-  function registrar(msg) {
-    const log = document.getElementById('log');
-    if (log.textContent.startsWith('Aguardando')) log.textContent = '';
-    const hora = new Date(msg.momento).toLocaleTimeString('pt-BR');
-    log.textContent = `[${hora}] ${msg.tipo}: ${msg.consulta.paciente.nome} | status: ${msg.consulta.status}\n` + log.textContent;
+  function registrarAtividade(msg) {
+    const lista = $('atividade');
+    lista.querySelector('.sem-eventos')?.remove();
+    const c = msg.consulta;
+    const li = document.createElement('li');
+    const quando = el('time', '', new Date(msg.momento).toLocaleTimeString('pt-BR'));
+    quando.dateTime = msg.momento;
+    const texto = msg.tipo === 'CHAMADA'
+      ? `${c.paciente.nome} chamado(a) para ${c.medico.sala || 'a recepção'}`
+      : `${c.paciente.nome}: status alterado`;
+    li.append(quando, el('span', '', texto), el('span', 'pilula st-' + c.status, ROTULO_STATUS[c.status]));
+    lista.prepend(li);
+    while (lista.children.length > 30) lista.lastElementChild.remove();
+  }
+
+  // ---------- Utilitários ----------
+  function el(tag, classe, texto) {
+    const e = document.createElement(tag);
+    if (classe) e.className = classe;
+    if (texto) e.textContent = texto;
+    return e;
+  }
+  function celula(classe, texto) { return el('td', classe, texto); }
+  function botao(texto, classe, onclick, rotuloAcessivel) {
+    const b = el('button', 'btn ' + classe, texto);
+    b.type = 'button';
+    b.onclick = onclick;
+    if (rotuloAcessivel) b.setAttribute('aria-label', rotuloAcessivel);
+    return b;
   }
 
   campoData.onchange = carregar;
-  document.getElementById('btnRecarregar').onclick = carregar;
+  $('btnHoje').onclick = () => { campoData.value = hoje(); carregar(); };
+  setInterval(() => { if (campoData.value === hoje()) desenhar(); }, 60000); // atualiza marcação de atraso
   carregar();
   conectar();
 </script>
