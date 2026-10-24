@@ -3,136 +3,415 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Painel de Chamada</title>
+  <title>Painel de Atendimento</title>
   <style>
+    :root {
+      --fundo: #0a121c;
+      --superficie: #101b29;
+      --borda: #1f2e42;
+      --texto: #eaf0f6;
+      --suave: #8c9db3;
+      --destaque: #2bb5a3;
+      --destaque-forte: #1a8f80;
+      --aviso: #e0a33a;
+      --sombra: 0 10px 30px rgba(0, 0, 0, .35);
+    }
     * { box-sizing: border-box; }
-    body { margin: 0; min-height: 100vh; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
-      background: #0b1f24; color: #ecfeff; display: flex; flex-direction: column; }
-    header { display: flex; justify-content: space-between; align-items: center; padding: 16px 28px;
-      background: #0f766e; flex-wrap: wrap; gap: 10px; }
-    header h1 { margin: 0; font-size: 1.4rem; }
-    .direita { display: flex; align-items: center; gap: 14px; }
-    #relogio { font-size: 1.4rem; font-variant-numeric: tabular-nums; }
-    .status-ws { display: inline-flex; align-items: center; gap: 8px; font-size: .85rem; padding: 4px 10px;
-      border-radius: 999px; background: rgba(0,0,0,.2); }
-    .bolinha { width: 10px; height: 10px; border-radius: 50%; background: #f87171; }
-    .status-ws.on .bolinha { background: #4ade80; }
-    button { font: inherit; border: 0; border-radius: 6px; padding: 6px 12px; cursor: pointer;
-      background: #ecfeff; color: #0f766e; }
-    main { flex: 1; display: grid; grid-template-columns: 2fr 1fr; gap: 24px; padding: 28px; }
-    @media (max-width: 800px) { main { grid-template-columns: 1fr; } }
-    .atual { background: #134e4a; border-radius: 16px; padding: 32px; display: flex; flex-direction: column;
-      justify-content: center; text-align: center; min-height: 320px; }
-    .atual .rotulo { text-transform: uppercase; letter-spacing: .15em; color: #99f6e4; font-size: 1rem; }
-    .atual .paciente { font-size: clamp(2.2rem, 6vw, 4.5rem); font-weight: 700; margin: 18px 0; }
-    .atual .sala { font-size: clamp(1.6rem, 4vw, 3rem); color: #fde68a; font-weight: 700; }
-    .atual .medico { font-size: 1.3rem; color: #ccfbf1; margin-top: 10px; }
-    .atual.piscar { animation: piscar 1s ease-in-out 3; }
-    @keyframes piscar { 50% { background: #b45309; } }
-    .historico { background: #102a30; border-radius: 16px; padding: 20px; }
-    .historico h2 { margin-top: 0; font-size: 1rem; text-transform: uppercase; letter-spacing: .1em; color: #99f6e4; }
-    .historico ol { list-style: none; margin: 0; padding: 0; }
-    .historico li { padding: 12px 0; border-bottom: 1px solid #1f4b52; }
-    .historico li strong { display: block; font-size: 1.15rem; }
-    .historico li span { color: #a5b4bc; font-size: .9rem; }
-    .vazio { color: #6b8a91; }
+    html, body { height: 100%; }
+    body {
+      margin: 0;
+      font-family: "Segoe UI", system-ui, -apple-system, Roboto, "Helvetica Neue", Arial, sans-serif;
+      background: var(--fundo);
+      color: var(--texto);
+      display: grid;
+      grid-template-rows: auto minmax(0, 1fr) auto auto;
+      height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Cabeçalho */
+    .cabecalho {
+      display: flex; align-items: center; justify-content: space-between; gap: 16px; flex-wrap: wrap;
+      padding: 20px 40px; border-bottom: 1px solid var(--borda);
+    }
+    .marca { display: flex; align-items: center; gap: 14px; }
+    .marca svg { width: 42px; height: 42px; flex: none; }
+    .marca .nome { font-size: 1.35rem; font-weight: 600; letter-spacing: .01em; }
+    .marca .sub { font-size: .85rem; color: var(--suave); text-transform: uppercase; letter-spacing: .14em; }
+    .tempo { text-align: right; }
+    .tempo .hora { font-size: 2.2rem; font-weight: 300; font-variant-numeric: tabular-nums; line-height: 1; }
+    .tempo .data { font-size: .9rem; color: var(--suave); margin-top: 6px; }
+
+    /* Área principal */
+    .principal {
+      display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); gap: 28px;
+      padding: 24px 40px; min-height: 0;
+    }
+    .cartao {
+      background: var(--superficie); border: 1px solid var(--borda); border-radius: 14px; box-shadow: var(--sombra);
+    }
+    .titulo-secao {
+      font-size: .8rem; font-weight: 600; color: var(--suave); text-transform: uppercase; letter-spacing: .16em;
+    }
+
+    .chamada {
+      position: relative; overflow: hidden;
+      display: flex; flex-direction: column; justify-content: center;
+      padding: 40px 52px; min-height: 300px;
+    }
+    .chamada::before {
+      content: ""; position: absolute; inset: 0 auto 0 0; width: 6px; background: var(--destaque);
+    }
+    .chamada .paciente {
+      font-size: clamp(2.6rem, 6vw, 5.6rem); font-weight: 700; line-height: 1.05;
+      margin: 18px 0 34px; letter-spacing: -.01em; overflow-wrap: anywhere;
+    }
+    .chamada.vazia .paciente { color: var(--suave); font-weight: 400; font-size: clamp(1.8rem, 3.6vw, 3rem); }
+    .chamada.vazia .detalhes { display: none; }
+    .detalhes { display: flex; gap: 48px; flex-wrap: wrap; align-items: flex-end; }
+    .detalhes .rotulo { display: block; font-size: .85rem; color: var(--suave); margin-bottom: 8px; }
+    .sala {
+      display: inline-block; font-size: clamp(2rem, 4vw, 3.4rem); font-weight: 700; line-height: 1;
+      padding: 14px 26px; border-radius: 10px; background: var(--destaque); color: #04201c;
+    }
+    .medico { font-size: clamp(1.2rem, 2vw, 1.7rem); font-weight: 500; }
+    .repeticao {
+      position: absolute; top: 40px; right: 48px; font-size: .85rem; font-weight: 600; color: var(--aviso);
+      border: 1px solid var(--aviso); border-radius: 999px; padding: 6px 14px; display: none;
+    }
+    .repeticao.visivel { display: block; }
+
+    /* Destaque discreto quando chega uma nova chamada */
+    .chamada.nova { animation: realce 2.4s ease-out; }
+    .chamada.nova .paciente, .chamada.nova .detalhes { animation: entrada .6s ease-out; }
+    @keyframes realce {
+      0% { background: #17463f; border-color: var(--destaque); }
+      100% { background: var(--superficie); border-color: var(--borda); }
+    }
+    @keyframes entrada {
+      from { opacity: 0; transform: translateY(14px); }
+      to { opacity: 1; transform: none; }
+    }
+
+    .anteriores { padding: 28px 28px 12px; display: flex; flex-direction: column; min-height: 0; }
+    .anteriores ol { list-style: none; margin: 18px 0 0; padding: 0; }
+    .anteriores li {
+      display: grid; grid-template-columns: 56px 1fr auto; gap: 14px; align-items: center;
+      padding: 16px 0; border-top: 1px solid var(--borda);
+    }
+    .anteriores li:first-child { border-top: 0; }
+    .anteriores .h { color: var(--suave); font-variant-numeric: tabular-nums; font-size: .95rem; }
+    .anteriores .n { font-size: 1.15rem; font-weight: 600; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .anteriores .s {
+      font-size: .9rem; font-weight: 600; color: var(--destaque); border: 1px solid var(--destaque-forte);
+      padding: 4px 10px; border-radius: 6px; white-space: nowrap;
+    }
+    .anteriores li.sem-itens { display: block; color: var(--suave); }
+
+    /* Situação das salas */
+    .salas { padding: 0 40px 24px; }
+    .salas .grade {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 16px; margin-top: 14px;
+    }
+    .sala-card { padding: 18px 20px; display: flex; flex-direction: column; gap: 6px; }
+    .sala-card .topo { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+    .sala-card .nome-sala { font-size: 1.15rem; font-weight: 700; }
+    .sala-card .prof { color: var(--suave); font-size: .92rem; }
+    .sala-card .prox { color: var(--suave); font-size: .82rem; }
+    .situacao { font-size: .78rem; font-weight: 600; padding: 4px 10px; border-radius: 999px; white-space: nowrap; }
+    .situacao.livre { background: #1b2a3c; color: #a9b8ca; }
+    .situacao.aguardando { background: #3a2c12; color: #f2c46d; }
+    .situacao.atendendo { background: #10392f; color: #5fe0c8; }
+
+    /* Rodapé */
+    .rodape {
+      display: flex; align-items: center; gap: 24px; padding: 14px 40px;
+      border-top: 1px solid var(--borda); background: #0c1622; color: var(--suave); font-size: .95rem;
+    }
+    .conexao { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; font-size: .85rem; }
+    .conexao i { width: 8px; height: 8px; border-radius: 50%; background: #d9534f; }
+    .conexao.on i { background: var(--destaque); }
+    .aviso { flex: 1; min-width: 0; transition: opacity .5s; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .controles { display: flex; gap: 8px; }
+    .controles button {
+      display: inline-flex; align-items: center; gap: 8px; cursor: pointer;
+      background: transparent; color: var(--suave); border: 1px solid var(--borda);
+      border-radius: 8px; padding: 7px 12px; font: inherit; font-size: .85rem;
+    }
+    .controles button:hover { color: var(--texto); border-color: #33465f; }
+    .controles button.ativo { color: var(--destaque); border-color: var(--destaque-forte); }
+    .controles svg { width: 16px; height: 16px; }
+
+    @media (max-width: 900px) {
+      body { height: auto; min-height: 100vh; }
+      .principal { grid-template-columns: 1fr; padding: 20px 16px; }
+      .cabecalho, .salas, .rodape { padding-left: 16px; padding-right: 16px; }
+      .chamada { padding: 32px 28px; min-height: 280px; }
+      .repeticao { top: 18px; right: 18px; }
+      .rodape { flex-wrap: wrap; }
+      .aviso { flex-basis: 100%; order: 3; white-space: normal; }
+    }
   </style>
 </head>
 <body>
-<header>
-  <h1>Painel de Chamada</h1>
-  <div class="direita">
-    <button id="btnSom" title="Ativa o som e a voz das chamadas">🔈 Ativar som</button>
-    <span id="statusWs" class="status-ws"><span class="bolinha"></span><span id="statusTexto">Desconectado</span></span>
-    <span id="relogio">--:--</span>
+
+<header class="cabecalho">
+  <div class="marca">
+    <svg viewBox="0 0 48 48" aria-hidden="true">
+      <rect width="48" height="48" rx="12" fill="#2bb5a3"/>
+      <path d="M20 11h8v9h9v8h-9v9h-8v-9h-9v-8h9z" fill="#0a121c"/>
+    </svg>
+    <div>
+      <div class="nome">Clínica Médica</div>
+      <div class="sub">Painel de atendimento</div>
+    </div>
+  </div>
+  <div class="tempo">
+    <div class="hora" id="hora">--:--</div>
+    <div class="data" id="data"></div>
   </div>
 </header>
-<main>
-  <section id="atual" class="atual">
-    <div class="rotulo">Chamando agora</div>
-    <div class="paciente" id="pacienteAtual">Aguardando chamada…</div>
-    <div class="sala" id="salaAtual"></div>
-    <div class="medico" id="medicoAtual"></div>
+
+<main class="principal">
+  <section class="cartao chamada vazia" id="chamada" aria-live="assertive">
+    <span class="titulo-secao">Chamada atual</span>
+    <span class="repeticao" id="repeticao"></span>
+    <div class="paciente" id="paciente">Aguardando a próxima chamada</div>
+    <div class="detalhes">
+      <div>
+        <span class="rotulo">Dirija-se à</span>
+        <span class="sala" id="sala"></span>
+      </div>
+      <div>
+        <span class="rotulo">Profissional</span>
+        <span class="medico" id="medico"></span>
+      </div>
+    </div>
   </section>
-  <aside class="historico">
-    <h2>Últimas chamadas</h2>
-    <ol id="historico"><li class="vazio">Nenhuma chamada ainda.</li></ol>
+
+  <aside class="cartao anteriores">
+    <span class="titulo-secao">Chamadas anteriores</span>
+    <ol id="anteriores"><li class="sem-itens">Nenhuma chamada registrada.</li></ol>
   </aside>
 </main>
 
+<section class="salas">
+  <span class="titulo-secao">Consultórios</span>
+  <div class="grade" id="salas"></div>
+</section>
+
+<footer class="rodape">
+  <span class="conexao" id="conexao"><i></i><span id="conexaoTexto">Conectando</span></span>
+  <span class="aviso" id="aviso"></span>
+  <div class="controles">
+    <button id="btnSom" type="button" title="Ativar aviso sonoro">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M11 5 6 9H2v6h4l5 4V5z"/>
+        <path id="iconeSom" d="M23 9l-6 6M17 9l6 6"/>
+      </svg>
+      <span id="somTexto">Som desligado</span>
+    </button>
+    <button id="btnTela" type="button" title="Tela cheia">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+        <path d="M8 3H5a2 2 0 0 0-2 2v3M21 8V5a2 2 0 0 0-2-2h-3M3 16v3a2 2 0 0 0 2 2h3M16 21h3a2 2 0 0 0 2-2v-3"/>
+      </svg>
+      <span>Tela cheia</span>
+    </button>
+  </div>
+</footer>
+
 <script>
   const WS_URL = (location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/ws/painel';
-  const historico = [];
-  let somAtivo = false;
-  let ws;
+  const AVISOS = [
+    'Tenha em mãos um documento oficial com foto e a carteirinha do convênio.',
+    'Idosos, gestantes e pessoas com deficiência têm atendimento preferencial.',
+    'Em caso de dúvida, procure a recepção.',
+    'Mantenha o celular no modo silencioso durante a consulta.'
+  ];
 
+  const anteriores = [];
+  const chamadasPorConsulta = new Map();
+  let medicos = [];
+  let consultasHoje = [];
+  let somAtivo = false;
+
+  const $ = (id) => document.getElementById(id);
+  const hojeISO = () => new Date().toLocaleDateString('sv-SE');
+  const horaCurta = (d) => new Date(d).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+
+  // ---------- WebSocket ----------
   function conectar() {
-    ws = new WebSocket(WS_URL);
-    ws.onopen = () => definirStatus(true);
-    ws.onclose = () => { definirStatus(false); setTimeout(conectar, 2000); }; // reconecta sozinho
+    const ws = new WebSocket(WS_URL);
+    ws.onopen = () => { definirConexao(true); carregarSalas(); };
+    ws.onclose = () => { definirConexao(false); setTimeout(conectar, 3000); };
     ws.onmessage = (evento) => {
       if (evento.data === 'pong') return;
       const msg = JSON.parse(evento.data);
-      if (msg.tipo === 'CHAMADA') mostrarChamada(msg);
+      if (msg.tipo === 'CHAMADA') exibirChamada(msg);
+      atualizarConsulta(msg.consulta);
     };
   }
 
-  function definirStatus(conectado) {
-    document.getElementById('statusWs').classList.toggle('on', conectado);
-    document.getElementById('statusTexto').textContent = conectado ? 'Conectado' : 'Reconectando…';
+  function definirConexao(online) {
+    $('conexao').classList.toggle('on', online);
+    $('conexaoTexto').textContent = online ? 'Conectado' : 'Sem conexão, tentando novamente';
   }
 
-  function mostrarChamada(msg) {
+  // ---------- Chamada atual ----------
+  function exibirChamada(msg) {
     const c = msg.consulta;
-    document.getElementById('pacienteAtual').textContent = c.paciente.nome;
-    document.getElementById('salaAtual').textContent = c.medico.sala || '';
-    document.getElementById('medicoAtual').textContent = c.medico.nome;
+    const vezes = (chamadasPorConsulta.get(c.id) || 0) + 1;
+    chamadasPorConsulta.set(c.id, vezes);
 
-    const painel = document.getElementById('atual');
-    painel.classList.remove('piscar'); void painel.offsetWidth; painel.classList.add('piscar');
+    const painel = $('chamada');
+    painel.classList.remove('vazia', 'nova');
+    void painel.offsetWidth; // reinicia a animação
+    painel.classList.add('nova');
 
-    historico.unshift({ paciente: c.paciente.nome, sala: c.medico.sala, medico: c.medico.nome,
-                        hora: new Date(msg.momento).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) });
-    historico.splice(6);
-    const lista = document.getElementById('historico');
-    lista.replaceChildren(...historico.map(h => {
+    $('paciente').textContent = c.paciente.nome;
+    $('sala').textContent = c.medico.sala || 'Recepção';
+    $('medico').textContent = c.medico.nome;
+    $('repeticao').textContent = vezes + 'ª chamada';
+    $('repeticao').classList.toggle('visivel', vezes > 1);
+
+    // Se o paciente já estava na lista (nova chamada), remove a entrada antiga
+    const repetida = anteriores.findIndex(a => a.id === c.id);
+    if (repetida >= 0) anteriores.splice(repetida, 1);
+    anteriores.unshift({ id: c.id, hora: horaCurta(msg.momento), nome: c.paciente.nome, sala: c.medico.sala || '' });
+    anteriores.splice(7);
+    desenharAnteriores();
+
+    if (somAtivo) tocarAviso(c);
+  }
+
+  function desenharAnteriores() {
+    // A primeira da lista é a chamada atual, então começa da segunda
+    const itens = anteriores.slice(1);
+    const lista = $('anteriores');
+    if (itens.length === 0) {
+      lista.innerHTML = '<li class="sem-itens">Nenhuma chamada registrada.</li>';
+      return;
+    }
+    lista.replaceChildren(...itens.map(a => {
       const li = document.createElement('li');
-      const nome = document.createElement('strong'); nome.textContent = h.paciente;
-      const info = document.createElement('span'); info.textContent = `${h.sala || ''} · ${h.medico} · ${h.hora}`;
-      li.append(nome, info);
+      li.append(span('h', a.hora), span('n', a.nome), span('s', a.sala));
       return li;
     }));
-
-    if (somAtivo) avisarComSom(c);
   }
 
-  function avisarComSom(c) {
+  function span(classe, texto) {
+    const s = document.createElement('span');
+    s.className = classe; s.textContent = texto;
+    return s;
+  }
+
+  // ---------- Situação dos consultórios ----------
+  async function carregarSalas() {
+    try {
+      const [rm, rc] = await Promise.all([fetch('/api/medicos'), fetch('/api/consultas?data=' + hojeISO())]);
+      medicos = await rm.json();
+      consultasHoje = await rc.json();
+      desenharSalas();
+    } catch (e) { /* servidor indisponível: tenta de novo na reconexão */ }
+  }
+
+  function atualizarConsulta(consulta) {
+    const i = consultasHoje.findIndex(c => c.id === consulta.id);
+    if (i >= 0) consultasHoje[i] = consulta; else consultasHoje.push(consulta);
+    desenharSalas();
+  }
+
+  function desenharSalas() {
+    const agora = new Date();
+    const ordenados = medicos.filter(m => m.sala)
+      .sort((a, b) => a.sala.localeCompare(b.sala, 'pt-BR', { numeric: true }));
+    const cards = ordenados.map(m => {
+      const doMedico = consultasHoje.filter(c => c.medico.id === m.id);
+      let situacao = ['livre', 'Disponível'];
+      if (doMedico.some(c => c.status === 'EM_ATENDIMENTO')) situacao = ['atendendo', 'Em atendimento'];
+      else if (doMedico.some(c => c.status === 'CHAMADA')) situacao = ['aguardando', 'Aguardando paciente'];
+
+      const proxima = doMedico
+        .filter(c => c.status === 'AGENDADA' && new Date(c.dataHora) >= new Date(agora.getTime() - 30 * 60000))
+        .sort((a, b) => a.dataHora.localeCompare(b.dataHora))[0];
+
+      const card = document.createElement('div');
+      card.className = 'cartao sala-card';
+      const topo = document.createElement('div');
+      topo.className = 'topo';
+      topo.append(span('nome-sala', m.sala), span('situacao ' + situacao[0], situacao[1]));
+      card.append(topo, span('prof', m.nome),
+                  span('prox', proxima ? 'Próximo horário: ' + horaCurta(proxima.dataHora) : 'Nenhum horário pendente hoje'));
+      return card;
+    });
+    $('salas').replaceChildren(...cards);
+  }
+
+  // ---------- Som ----------
+  function tocarAviso(c) {
     try {
       const ctx = new AudioContext();
-      [880, 660].forEach((freq, i) => {
-        const osc = ctx.createOscillator(); const gain = ctx.createGain();
-        osc.frequency.value = freq; osc.connect(gain); gain.connect(ctx.destination);
-        gain.gain.setValueAtTime(0.2, ctx.currentTime + i * 0.35);
-        osc.start(ctx.currentTime + i * 0.35); osc.stop(ctx.currentTime + i * 0.35 + 0.3);
+      [[659.25, 0], [523.25, 0.45]].forEach(([freq, inicio]) => {
+        const osc = ctx.createOscillator();
+        const ganho = ctx.createGain();
+        osc.type = 'sine';
+        osc.frequency.value = freq;
+        const t = ctx.currentTime + inicio;
+        ganho.gain.setValueAtTime(0.0001, t);
+        ganho.gain.exponentialRampToValueAtTime(0.25, t + 0.02);
+        ganho.gain.exponentialRampToValueAtTime(0.0001, t + 1.2);
+        osc.connect(ganho).connect(ctx.destination);
+        osc.start(t); osc.stop(t + 1.25);
       });
-    } catch (e) { /* navegador sem áudio */ }
+    } catch (e) { /* navegador sem suporte a áudio */ }
+
     if ('speechSynthesis' in window) {
-      const fala = new SpeechSynthesisUtterance(`${c.paciente.nome}, ${c.medico.sala || ''}`);
+      const fala = new SpeechSynthesisUtterance(`${c.paciente.nome}. ${c.medico.sala || 'Recepção'}.`);
       fala.lang = 'pt-BR';
-      setTimeout(() => speechSynthesis.speak(fala), 800);
+      fala.rate = 0.9;
+      setTimeout(() => speechSynthesis.speak(fala), 1300);
     }
   }
 
-  document.getElementById('btnSom').onclick = (e) => {
+  $('btnSom').onclick = () => {
     somAtivo = !somAtivo;
-    e.target.textContent = somAtivo ? '🔊 Som ativo' : '🔈 Ativar som';
+    $('btnSom').classList.toggle('ativo', somAtivo);
+    $('somTexto').textContent = somAtivo ? 'Som ligado' : 'Som desligado';
+    // Ondas sonoras quando ligado, "X" quando desligado
+    $('iconeSom').setAttribute('d', somAtivo
+      ? 'M15.5 8.5a5 5 0 0 1 0 7M19 5a10 10 0 0 1 0 14'
+      : 'M23 9l-6 6M17 9l6 6');
   };
 
-  setInterval(() => {
-    document.getElementById('relogio').textContent =
-      new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
-  }, 1000);
+  $('btnTela').onclick = () => {
+    if (document.fullscreenElement) document.exitFullscreen();
+    else document.documentElement.requestFullscreen().catch(() => {});
+  };
 
+  // ---------- Relógio e avisos ----------
+  function atualizarRelogio() {
+    const agora = new Date();
+    $('hora').textContent = agora.toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+    const data = agora.toLocaleDateString('pt-BR',
+      { weekday: 'long', day: 'numeric', month: 'long', year: 'numeric' });
+    $('data').textContent = data.charAt(0).toUpperCase() + data.slice(1);
+  }
+
+  let avisoAtual = 0;
+  function trocarAviso() {
+    const el = $('aviso');
+    el.style.opacity = 0;
+    setTimeout(() => {
+      el.textContent = AVISOS[avisoAtual++ % AVISOS.length];
+      el.style.opacity = 1;
+    }, 500);
+  }
+
+  atualizarRelogio();
+  setInterval(atualizarRelogio, 1000);
+  trocarAviso();
+  setInterval(trocarAviso, 9000);
+  setInterval(carregarSalas, 60000); // garante sincronia mesmo sem eventos
   conectar();
 </script>
 </body>

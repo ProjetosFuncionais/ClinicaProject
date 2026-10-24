@@ -1,13 +1,13 @@
-# Clínica API – Agendamento de Consultas
+# Clínica API: Agendamento de Consultas
 
-Projeto da disciplina **Desenvolvimento Web Back-end (BRADWBK)** – IFSP Bragança Paulista.
+Projeto da disciplina Desenvolvimento Web Back-end (BRADWBK), IFSP Bragança Paulista.
 
 API REST em Spring Boot para uma clínica médica, com banco relacional (H2 + JPA/Hibernate) e um
-**painel de chamada de pacientes em tempo real via WebSocket**.
+painel de atendimento em tempo real via WebSocket.
 
 ## Como rodar
 
-Requisitos: **Java 21**. Não precisa instalar Maven nem banco de dados.
+Requisito: Java 21. Não precisa instalar Maven nem banco de dados.
 
 ```bash
 ./mvnw spring-boot:run        # macOS / Linux
@@ -19,7 +19,7 @@ Acesse:
 | O quê | Endereço |
 |---|---|
 | Página inicial | http://localhost:8080 |
-| Painel de chamada (WebSocket) | http://localhost:8080/painel.html |
+| Painel de atendimento (WebSocket) | http://localhost:8080/painel.html |
 | Recepção (WebSocket) | http://localhost:8080/recepcao.html |
 | Swagger UI (documentação da API) | http://localhost:8080/swagger-ui.html |
 | Console do banco H2 | http://localhost:8080/h2-console (JDBC URL `jdbc:h2:file:./data/clinica;AUTO_SERVER=TRUE`, usuário `sa`, sem senha) |
@@ -29,15 +29,15 @@ Para zerar o banco, pare a aplicação e apague a pasta `data/`.
 
 ## Entidades e relacionamentos
 
-- **Especialidade** N:N **Médico** (tabela `medico_especialidade`)
-- **Médico** 1:N **Consulta**
-- **Paciente** 1:N **Consulta**
+- Especialidade N:N Médico (tabela `medico_especialidade`)
+- Médico 1:N Consulta
+- Paciente 1:N Consulta
 
 ## Testes funcionais (Postman)
 
-1. No Postman: **Import** → `postman/clinica-api.postman_collection.json`
-2. Com a aplicação rodando, clique com o botão direito na coleção → **Run collection** → **Run**
-3. As 46 requisições (82 verificações) devem passar. Tire print dessa tela para o documento.
+1. No Postman, use Import e selecione `postman/clinica-api.postman_collection.json`
+2. Com a aplicação rodando, clique com o botão direito na coleção, escolha Run collection e depois Run
+3. As 46 requisições (82 verificações) devem passar.
 
 Também é possível rodar pelo terminal: `npx newman run postman/clinica-api.postman_collection.json`
 

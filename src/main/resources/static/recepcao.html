@@ -8,25 +8,25 @@
 </head>
 <body>
 <header class="topo">
-  <h1>Recepção – Consultas do dia</h1>
+  <h1>Recepção | Consultas do dia</h1>
   <span id="statusWs" class="status-ws"><span class="bolinha"></span><span id="statusTexto">Desconectado</span></span>
 </header>
 <main>
   <div class="card">
     <label>Data: <input type="date" id="data"></label>
     <button class="sec" id="btnRecarregar">Recarregar</button>
-    <a href="painel.html" target="_blank" style="margin-left:8px">Abrir painel ↗</a>
+    <a href="painel.html" target="_blank" style="margin-left:8px">Abrir painel de atendimento</a>
     <p class="mensagem" id="mensagem"></p>
     <div class="tabela-scroll">
       <table>
         <thead><tr><th>Hora</th><th>Paciente</th><th>Médico</th><th>Sala</th><th>Status</th><th>Ações</th></tr></thead>
-        <tbody id="linhas"><tr><td colspan="6">Carregando…</td></tr></tbody>
+        <tbody id="linhas"><tr><td colspan="6">Carregando...</td></tr></tbody>
       </table>
     </div>
   </div>
   <div class="card">
     <h2 style="margin-top:0">Mensagens recebidas pelo WebSocket</h2>
-    <pre class="log" id="log">Aguardando eventos…</pre>
+    <pre class="log" id="log">Aguardando eventos...</pre>
   </div>
 </main>
 
@@ -64,7 +64,7 @@
       const acoes = document.createElement('div'); acoes.className = 'acoes';
       const finalizada = c.status === 'CONCLUIDA' || c.status === 'CANCELADA';
       acoes.append(
-        botao('📢 Chamar', '', () => acao(`${API}/${c.id}/chamar`, 'POST'),
+        botao('Chamar', '', () => acao(`${API}/${c.id}/chamar`, 'POST'),
               !(c.status === 'AGENDADA' || c.status === 'CHAMADA')),
         botao('Atender', 'sec', () => mudarStatus(c.id, 'EM_ATENDIMENTO'), finalizada || c.status === 'EM_ATENDIMENTO'),
         botao('Concluir', 'sec', () => mudarStatus(c.id, 'CONCLUIDA'), finalizada),
@@ -116,14 +116,14 @@
 
   function definirStatus(conectado) {
     document.getElementById('statusWs').classList.toggle('on', conectado);
-    document.getElementById('statusTexto').textContent = conectado ? 'WebSocket conectado' : 'Reconectando…';
+    document.getElementById('statusTexto').textContent = conectado ? 'WebSocket conectado' : 'Reconectando...';
   }
 
   function registrar(msg) {
     const log = document.getElementById('log');
     if (log.textContent.startsWith('Aguardando')) log.textContent = '';
     const hora = new Date(msg.momento).toLocaleTimeString('pt-BR');
-    log.textContent = `[${hora}] ${msg.tipo}: ${msg.consulta.paciente.nome} → ${msg.consulta.status}\n` + log.textContent;
+    log.textContent = `[${hora}] ${msg.tipo}: ${msg.consulta.paciente.nome} | status: ${msg.consulta.status}\n` + log.textContent;
   }
 
   campoData.onchange = carregar;
