@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Painel de Chamada</title>
+  <style>
+    * { box-sizing: border-box; }
+    body { margin: 0; min-height: 100vh; font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+      background: #0b1f24; color: #ecfeff; display: flex; flex-direction: column; }
+    header { display: flex; justify-content: space-between; align-items: center; padding: 16px 28px;
+      background: #0f766e; flex-wrap: wrap; gap: 10px; }
+    header h1 { margin: 0; font-size: 1.4rem; }
+    .direita { display: flex; align-items: center; gap: 14px; }
+    #relogio { font-size: 1.4rem; font-variant-numeric: tabular-nums; }
+    .status-ws { display: inline-flex; align-items: center; gap: 8px; font-size: .85rem; padding: 4px 10px;
+      border-radius: 999px; background: rgba(0,0,0,.2); }
+    .bolinha { width: 10px; height: 10px; border-radius: 50%; background: #f87171; }
+    .status-ws.on .bolinha { background: #4ade80; }
+    button { font: inherit; border: 0; border-radius: 6px; padding: 6px 12px; cursor: pointer;
+      background: #ecfeff; color: #0f766e; }
+    main { flex: 1; display: grid; grid-template-columns: 2fr 1fr; gap: 24px; padding: 28px; }
+    @media (max-width: 800px) { main { grid-template-columns: 1fr; } }
+    .atual { background: #134e4a; border-radius: 16px; padding: 32px; display: flex; flex-direction: column;
+      justify-content: center; text-align: center; min-height: 320px; }
+    .atual .rotulo { text-transform: uppercase; letter-spacing: .15em; color: #99f6e4; font-size: 1rem; }
+    .atual .paciente { font-size: clamp(2.2rem, 6vw, 4.5rem); font-weight: 700; margin: 18px 0; }
+    .atual .sala { font-size: clamp(1.6rem, 4vw, 3rem); color: #fde68a; font-weight: 700; }
+    .atual .medico { font-size: 1.3rem; color: #ccfbf1; margin-top: 10px; }
+    .atual.piscar { animation: piscar 1s ease-in-out 3; }
+    @keyframes piscar { 50% { background: #b45309; } }
+    .historico { background: #102a30; border-radius: 16px; padding: 20px; }
+    .historico h2 { margin-top: 0; font-size: 1rem; text-transform: uppercase; letter-spacing: .1em; color: #99f6e4; }
+    .historico ol { list-style: none; margin: 0; padding: 0; }
+    .historico li { padding: 12px 0; border-bottom: 1px solid #1f4b52; }
+    .historico li strong { display: block; font-size: 1.15rem; }
+    .historico li span { color: #a5b4bc; font-size: .9rem; }
+    .vazio { color: #6b8a91; }
+  </style>
+</head>
+<body>
+<header>
+  <h1>Painel de Chamada</h1>
+  <div class="direita">
+    <button id="btnSom" title="Ativa o som e a voz das chamadas">🔈 Ativar som</button>
+    <span id="statusWs" class="status-ws"><span class="bolinha"></span><span id="statusTexto">Desconectado</span></span>
+    <span id="relogio">--:--</span>
+  </div>
+</header>
+<main>
+  <section id="atual" class="atual">
+    <div class="rotulo">Chamando agora</div>
+    <div class="paciente" id="pacienteAtual">Aguardando chamada…</div>
+    <div class="sala" id="salaAtual"></div>
+    <div class="medico" id="medicoAtual"></div>
+  </section>
+  <aside class="historico">
+    <h2>Últimas chamadas</h2>
+    <ol id="historico"><li class="vazio">Nenhuma chamada ainda.</li></ol>
+  </aside>
+</main>
+
+<script>
+  const WS_URL = (location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/ws/painel';
+  const historico = [];
+  let somAtivo = false;
+  let ws;
+
+  function conectar() {
+    ws = new WebSocket(WS_URL);
+    ws.onopen = () => definirStatus(true);
+    ws.onclose = () => { definirStatus(false); setTimeout(conectar, 2000); }; // reconecta sozinho
+    ws.onmessage = (evento) => {
+      if (evento.data === 'pong') return;
+      const msg = JSON.parse(evento.data);
+      if (msg.tipo === 'CHAMADA') mostrarChamada(msg);
+    };
+  }
+
+  function definirStatus(conectado) {
+    document.getElementById('statusWs').classList.toggle('on', conectado);
+    document.getElementById('statusTexto').textContent = conectado ? 'Conectado' : 'Reconectando…';
+  }
+
+  function mostrarChamada(msg) {
+    const c = msg.consulta;
+    document.getElementById('pacienteAtual').textContent = c.paciente.nome;
+    document.getElementById('salaAtual').textContent = c.medico.sala || '';
+    document.getElementById('medicoAtual').textContent = c.medico.nome;
+
+    const painel = document.getElementById('atual');
+    painel.classList.remove('piscar'); void painel.offsetWidth; painel.classList.add('piscar');
+
+    historico.unshift({ paciente: c.paciente.nome, sala: c.medico.sala, medico: c.medico.nome,
+                        hora: new Date(msg.momento).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' }) });
+    historico.splice(6);
+    const lista = document.getElementById('historico');
+    lista.replaceChildren(...historico.map(h => {
+      const li = document.createElement('li');
+      const nome = document.createElement('strong'); nome.textContent = h.paciente;
+      const info = document.createElement('span'); info.textContent = `${h.sala || ''} · ${h.medico} · ${h.hora}`;
+      li.append(nome, info);
+      return li;
+    }));
+
+    if (somAtivo) avisarComSom(c);
+  }
+
+  function avisarComSom(c) {
+    try {
+      const ctx = new AudioContext();
+      [880, 660].forEach((freq, i) => {
+        const osc = ctx.createOscillator(); const gain = ctx.createGain();
+        osc.frequency.value = freq; osc.connect(gain); gain.connect(ctx.destination);
+        gain.gain.setValueAtTime(0.2, ctx.currentTime + i * 0.35);
+        osc.start(ctx.currentTime + i * 0.35); osc.stop(ctx.currentTime + i * 0.35 + 0.3);
+      });
+    } catch (e) { /* navegador sem áudio */ }
+    if ('speechSynthesis' in window) {
+      const fala = new SpeechSynthesisUtterance(`${c.paciente.nome}, ${c.medico.sala || ''}`);
+      fala.lang = 'pt-BR';
+      setTimeout(() => speechSynthesis.speak(fala), 800);
+    }
+  }
+
+  document.getElementById('btnSom').onclick = (e) => {
+    somAtivo = !somAtivo;
+    e.target.textContent = somAtivo ? '🔊 Som ativo' : '🔈 Ativar som';
+  };
+
+  setInterval(() => {
+    document.getElementById('relogio').textContent =
+      new Date().toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+  }, 1000);
+
+  conectar();
+</script>
+</body>
+</html>

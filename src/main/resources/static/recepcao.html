@@ -1,0 +1,135 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Recepção</title>
+  <link rel="stylesheet" href="estilo.css">
+</head>
+<body>
+<header class="topo">
+  <h1>Recepção – Consultas do dia</h1>
+  <span id="statusWs" class="status-ws"><span class="bolinha"></span><span id="statusTexto">Desconectado</span></span>
+</header>
+<main>
+  <div class="card">
+    <label>Data: <input type="date" id="data"></label>
+    <button class="sec" id="btnRecarregar">Recarregar</button>
+    <a href="painel.html" target="_blank" style="margin-left:8px">Abrir painel ↗</a>
+    <p class="mensagem" id="mensagem"></p>
+    <div class="tabela-scroll">
+      <table>
+        <thead><tr><th>Hora</th><th>Paciente</th><th>Médico</th><th>Sala</th><th>Status</th><th>Ações</th></tr></thead>
+        <tbody id="linhas"><tr><td colspan="6">Carregando…</td></tr></tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <h2 style="margin-top:0">Mensagens recebidas pelo WebSocket</h2>
+    <pre class="log" id="log">Aguardando eventos…</pre>
+  </div>
+</main>
+
+<script>
+  const API = '/api/consultas';
+  const WS_URL = (location.protocol === 'https:' ? 'wss://' : 'ws://') + location.host + '/ws/painel';
+  const campoData = document.getElementById('data');
+  campoData.value = new Date().toLocaleDateString('sv-SE'); // formato AAAA-MM-DD
+  let consultas = [];
+
+  async function carregar() {
+    mostrarErro('');
+    const resp = await fetch(`${API}?data=${campoData.value}`);
+    consultas = await resp.json();
+    desenhar();
+  }
+
+  function desenhar() {
+    const corpo = document.getElementById('linhas');
+    if (consultas.length === 0) {
+      corpo.innerHTML = '<tr><td colspan="6">Nenhuma consulta nesta data.</td></tr>';
+      return;
+    }
+    corpo.replaceChildren(...consultas.map(c => {
+      const tr = document.createElement('tr');
+      const hora = new Date(c.dataHora).toLocaleTimeString('pt-BR', { hour: '2-digit', minute: '2-digit' });
+      [hora, c.paciente.nome, c.medico.nome, c.medico.sala || '-'].forEach(t => {
+        const td = document.createElement('td'); td.textContent = t; tr.appendChild(td);
+      });
+      const tdStatus = document.createElement('td');
+      tdStatus.innerHTML = `<span class="tag ${c.status}">${c.status.replace('_', ' ')}</span>`;
+      tr.appendChild(tdStatus);
+
+      const tdAcoes = document.createElement('td');
+      const acoes = document.createElement('div'); acoes.className = 'acoes';
+      const finalizada = c.status === 'CONCLUIDA' || c.status === 'CANCELADA';
+      acoes.append(
+        botao('📢 Chamar', '', () => acao(`${API}/${c.id}/chamar`, 'POST'),
+              !(c.status === 'AGENDADA' || c.status === 'CHAMADA')),
+        botao('Atender', 'sec', () => mudarStatus(c.id, 'EM_ATENDIMENTO'), finalizada || c.status === 'EM_ATENDIMENTO'),
+        botao('Concluir', 'sec', () => mudarStatus(c.id, 'CONCLUIDA'), finalizada),
+        botao('Cancelar', 'perigo', () => mudarStatus(c.id, 'CANCELADA'), finalizada));
+      tdAcoes.appendChild(acoes);
+      tr.appendChild(tdAcoes);
+      return tr;
+    }));
+  }
+
+  function botao(texto, classe, onclick, desabilitado) {
+    const b = document.createElement('button');
+    b.textContent = texto; b.className = classe; b.onclick = onclick; b.disabled = desabilitado;
+    return b;
+  }
+
+  function mudarStatus(id, status) {
+    return acao(`${API}/${id}/status`, 'PATCH', { status });
+  }
+
+  // Faz a chamada REST. A tabela é atualizada pela mensagem que volta pelo WebSocket.
+  async function acao(url, metodo, corpo) {
+    mostrarErro('');
+    const resp = await fetch(url, {
+      method: metodo,
+      headers: corpo ? { 'Content-Type': 'application/json' } : {},
+      body: corpo ? JSON.stringify(corpo) : undefined
+    });
+    if (!resp.ok) {
+      const erro = await resp.json().catch(() => ({}));
+      mostrarErro(erro.mensagem || `Erro HTTP ${resp.status}`);
+    }
+  }
+
+  function mostrarErro(texto) { document.getElementById('mensagem').textContent = texto; }
+
+  function conectar() {
+    const ws = new WebSocket(WS_URL);
+    ws.onopen = () => definirStatus(true);
+    ws.onclose = () => { definirStatus(false); setTimeout(conectar, 2000); };
+    ws.onmessage = (evento) => {
+      if (evento.data === 'pong') return;
+      const msg = JSON.parse(evento.data);
+      registrar(msg);
+      const i = consultas.findIndex(c => c.id === msg.consulta.id);
+      if (i >= 0) { consultas[i] = msg.consulta; desenhar(); }
+    };
+  }
+
+  function definirStatus(conectado) {
+    document.getElementById('statusWs').classList.toggle('on', conectado);
+    document.getElementById('statusTexto').textContent = conectado ? 'WebSocket conectado' : 'Reconectando…';
+  }
+
+  function registrar(msg) {
+    const log = document.getElementById('log');
+    if (log.textContent.startsWith('Aguardando')) log.textContent = '';
+    const hora = new Date(msg.momento).toLocaleTimeString('pt-BR');
+    log.textContent = `[${hora}] ${msg.tipo}: ${msg.consulta.paciente.nome} → ${msg.consulta.status}\n` + log.textContent;
+  }
+
+  campoData.onchange = carregar;
+  document.getElementById('btnRecarregar').onclick = carregar;
+  carregar();
+  conectar();
+</script>
+</body>
+</html>
