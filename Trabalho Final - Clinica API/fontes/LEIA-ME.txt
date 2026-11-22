@@ -1,0 +1,11 @@
+Arquivos que geram os PDFs desta pasta.
+
+- cr1.html            -> CR1 - Documento de Especificação da API.pdf
+- montar_cr9.py       -> CR9 - Evidência dos Testes Funcionais.pdf (lista de prints e legendas)
+- apresentacao.html   -> Apresentação - Clínica API.pdf
+- roteiro.html        -> Roteiro da Apresentação em Vídeo.pdf
+- prints/             -> prints do Postman (01 a 28)
+- img/                -> telas, diagramas, logo e resultado do Newman
+
+Para trocar um print: substitua o arquivo em prints/ mantendo o mesmo nome.
+Depois rode ./gerar-pdfs.sh (ou ./gerar-pdfs.sh cr9 para gerar só um).

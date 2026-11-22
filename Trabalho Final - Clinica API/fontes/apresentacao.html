@@ -1,0 +1,457 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<title>Apresentação - Clínica API</title>
+<link rel="stylesheet" href="slides.css">
+<style>
+  .grade2 { display: grid; grid-template-columns: 1fr 1fr; gap: 22px; }
+  .grade3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+  .grade4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 14px; }
+  .lista-rf { list-style: none; margin: 0; padding: 0; }
+  .lista-rf li { font-size: 16.5px; line-height: 1.4; padding: 7px 0; border-bottom: 1px solid rgba(255,255,255,.12); color: rgba(255,255,255,.92); }
+  .lista-rf b { font-family: "Chakra Petch", sans-serif; color: #c9b8ff; margin-right: 8px; }
+  .camadas { display: flex; flex-direction: column; gap: 10px; }
+  .camada { display: flex; align-items: center; gap: 14px; padding: 12px 16px; border-radius: 10px; background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); font-size: 16px; }
+  .camada b { font-family: "Chakra Petch", sans-serif; font-size: 18px; min-width: 150px; color: #fff; }
+  .seta-baixo { text-align: center; color: #c9b8ff; font-size: 18px; line-height: 1; }
+  .tela-centro { position: absolute; left: 44px; right: 44px; top: 182px; bottom: 66px; display: flex; align-items: center; justify-content: center; }
+  .sub { font-size: 19px; color: rgba(255,255,255,.75); margin: 8px 0 0; }
+  .criterio { font-family: "Chakra Petch", sans-serif; font-weight: 700; color: #c9b8ff; }
+  .ok { color: #6ee7b7; font-weight: 700; }
+  table.tab.compacta td { padding: 6px 10px; font-size: 14.5px; }
+</style>
+</head>
+<body>
+
+<!-- 1 · CAPA -->
+<section class="slide">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+  <div class="conteudo" style="display:flex;flex-direction:column;justify-content:center;padding-left:20px">
+    <span class="rotulo-cr" style="align-self:flex-start">Desenvolvimento Web Back-end · 2026</span>
+    <h1 class="titulo" style="font-size:86px;margin:16px 0 4px">Clínica API</h1>
+    <p class="titulo t2 suave" style="margin:0 0 30px">Agendamento de consultas com API REST e WebSocket</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:9px 40px;font-size:17px;max-width:1000px">
+      <div><b>Josiely de Oliveira Ferreira</b> <span class="suave mono">BP3053431</span></div>
+      <div><b>Pedro Henrique De Araújo Soares Rodrigues</b> <span class="suave mono">BP3060608</span></div>
+      <div><b>Vitor Oliveira Faria</b> <span class="suave mono">BP3065324</span></div>
+      <div><b>Lygio Ursos de Moraes Sobrinho</b> <span class="suave mono">BP306042X</span></div>
+      <div><b>Vagner Alves Aquino</b> <span class="suave mono">BP3079465</span></div>
+      <div><b>Guilherme Espejo Bueno</b> <span class="suave mono">BP3053822</span></div>
+      <div><b>João Chico Rafael</b> <span class="suave mono">BP3044823</span></div>
+    </div>
+    <p class="suave" style="margin-top:28px;font-size:15px">Prof. Luiz Gustavo Diniz de Oliveira Véras</p>
+  </div>
+  <span class="quem">Apresenta: Josiely</span><div class="rodape-num">Página 01</div>
+  <svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+
+<!-- 2 · INTEGRANTES -->
+<section class="slide">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+  <div class="conteudo">
+    <h1 class="titulo t1">Integrantes e divisão</h1>
+    <table class="tab" style="margin-top:22px">
+      <tr><th style="width:40%">Integrante</th><th style="width:15%">Prontuário</th><th>Parte apresentada</th></tr>
+      <tr><td>Josiely de Oliveira Ferreira</td><td class="m">BP3053431</td><td>Abertura, domínio e tecnologias</td></tr>
+      <tr><td>Pedro Henrique De Araújo Soares Rodrigues</td><td class="m">BP3060608</td><td>Requisitos funcionais da API e do WebSocket</td></tr>
+      <tr><td>Vitor Oliveira Faria</td><td class="m">BP3065324</td><td>Entidades, relacionamentos e banco de dados</td></tr>
+      <tr><td>Lygio Ursos de Moraes Sobrinho</td><td class="m">BP306042X</td><td>API: Especialidades e Médicos</td></tr>
+      <tr><td>Vagner Alves Aquino</td><td class="m">BP3079465</td><td>API: Pacientes, Consultas e regras de negócio</td></tr>
+      <tr><td>Guilherme Espejo Bueno</td><td class="m">BP3053822</td><td>WebSocket: painel de atendimento em tempo real</td></tr>
+      <tr><td>João Chico Rafael</td><td class="m">BP3044823</td><td>Swagger, testes funcionais e encerramento</td></tr>
+    </table>
+  </div>
+  <span class="quem">Apresenta: Josiely</span><div class="rodape-num">Página 02</div>
+  <svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+
+<!-- 3 · DOMÍNIO -->
+<section class="slide">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+  <div class="conteudo">
+    <h1 class="titulo t1">Domínio da aplicação</h1>
+    <p class="sub">Agendamento e atendimento de consultas em uma clínica médica</p>
+    <div class="grade3" style="margin-top:34px">
+      <div class="cartao"><h3>Cadastros</h3><p>Especialidades, médicos e pacientes, com CRM e CPF únicos.</p></div>
+      <div class="cartao"><h3>Agenda</h3><p>Consultas entre um médico e um paciente, sem conflito de horário.</p></div>
+      <div class="cartao"><h3>Atendimento</h3><p>A recepção chama o paciente, o médico atende e encerra a consulta.</p></div>
+    </div>
+    <div class="cartao" style="margin-top:18px">
+      <h3>Painel da sala de espera</h3>
+      <p>Uma TV mostra, em tempo real pelo WebSocket, o paciente chamado, o consultório e a situação de cada sala.</p>
+    </div>
+  </div>
+  <span class="quem">Apresenta: Josiely</span><div class="rodape-num">Página 03</div>
+  <svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+
+<!-- 4 · TECNOLOGIAS E ORGANIZAÇÃO -->
+<section class="slide">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+  <div class="conteudo">
+    <h1 class="titulo t1">Tecnologias e organização</h1>
+    <div class="grade2" style="margin-top:26px">
+      <div class="cartao">
+        <h3>Tecnologias</h3>
+        <ul>
+          <li>Java 21 e Spring Boot 3.5</li>
+          <li>Spring Web (rotas REST) e Bean Validation</li>
+          <li>Spring Data JPA com Hibernate (ORM)</li>
+          <li>Spring WebSocket</li>
+          <li>Banco relacional H2, salvo em arquivo</li>
+          <li>Swagger UI, Postman e Newman</li>
+          <li>Git e GitHub</li>
+        </ul>
+      </div>
+      <div class="camadas">
+        <div class="camada"><b>controller</b><span>rotas REST da API</span></div>
+        <div class="seta-baixo">▼</div>
+        <div class="camada"><b>service</b><span>regras de negócio</span></div>
+        <div class="seta-baixo">▼</div>
+        <div class="camada"><b>repository</b><span>acesso ao banco (JPA)</span></div>
+        <div class="camada" style="margin-top:8px"><b>websocket · dto · exception</b><span></span></div>
+      </div>
+    </div>
+  </div>
+  <span class="quem">Apresenta: Josiely</span><div class="rodape-num">Página 04</div>
+  <svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+
+<!-- 5 · REQUISITOS -->
+<section class="slide">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+  <div class="conteudo">
+    <h1 class="titulo t1">Requisitos funcionais</h1>
+    <div class="grade2" style="margin-top:18px;gap:40px">
+      <ul class="lista-rf">
+        <li><b>RF01</b>CRUD de especialidades</li>
+        <li><b>RF02</b>CRUD de médicos (CRM único)</li>
+        <li><b>RF03</b>Vincular especialidades a médicos</li>
+        <li><b>RF04</b>CRUD de pacientes (CPF único)</li>
+        <li><b>RF05</b>Agendar, reagendar e excluir consultas</li>
+        <li><b>RF06</b>Filtrar consultas por data, médico, paciente e status</li>
+      </ul>
+      <ul class="lista-rf">
+        <li><b>RF07</b>Agenda do médico e histórico do paciente</li>
+        <li><b>RF08</b>Sem duas consultas no mesmo horário</li>
+        <li><b>RF09</b>Status só muda pelas transições permitidas</li>
+        <li><b>RF10</b>Não excluir médico ou paciente com consultas</li>
+        <li><b>RF11</b>Erros sempre no mesmo formato</li>
+      </ul>
+    </div>
+  </div>
+  <span class="quem">Apresenta: Pedro</span><div class="rodape-num">Página 05</div>
+  <svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+
+<!-- 6 · RF-WS01 -->
+<section class="slide">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+  <div class="conteudo">
+    <h1 class="titulo t1">RF-WS01: painel em tempo real</h1>
+    <div class="grade2" style="margin-top:24px;grid-template-columns:1fr 1.05fr">
+      <div class="texto">
+        <p>A recepção chama o paciente pela rota <span class="mono destaque">POST /api/consultas/{id}/chamar</span>.</p>
+        <p>O servidor envia a mensagem pelo WebSocket <span class="mono destaque">/ws/painel</span> para todos os clientes conectados.</p>
+        <p>O painel mostra o paciente, a sala e o médico, guarda as últimas chamadas e pode tocar um aviso sonoro.</p>
+        <p>As outras mudanças de status também são enviadas e atualizam as salas e a recepção.</p>
+      </div>
+<pre class="codigo">{
+  <span class="s">"tipo"</span>: <span class="s">"CHAMADA"</span>,
+  <span class="s">"momento"</span>: <span class="s">"2026-11-10T09:31:05"</span>,
+  <span class="s">"consulta"</span>: {
+    <span class="s">"id"</span>: 2,
+    <span class="s">"status"</span>: <span class="s">"CHAMADA"</span>,
+    <span class="s">"medico"</span>: {
+      <span class="s">"nome"</span>: <span class="s">"Dr. Bruno Lima"</span>,
+      <span class="s">"sala"</span>: <span class="s">"Sala 2"</span>
+    },
+    <span class="s">"paciente"</span>: {
+      <span class="s">"nome"</span>: <span class="s">"Pedro Santos"</span>
+    }
+  }
+}</pre>
+    </div>
+  </div>
+  <span class="quem">Apresenta: Pedro</span><div class="rodape-num">Página 06</div>
+  <svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+
+<!-- 7 · ENTIDADES -->
+<section class="slide">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+  <div class="conteudo">
+    <h1 class="titulo t1">Quatro entidades</h1>
+    <div class="grade4" style="margin-top:22px">
+      <div class="cartao"><h3>Especialidade</h3><p>nome (único)<br>descrição</p></div>
+      <div class="cartao"><h3>Médico</h3><p>nome, CRM (único)<br>e-mail, telefone, sala</p></div>
+      <div class="cartao"><h3>Paciente</h3><p>nome, CPF (único)<br>nascimento, telefone, e-mail</p></div>
+      <div class="cartao"><h3>Consulta</h3><p>data e hora, status<br>observações</p></div>
+    </div>
+    <h2 class="titulo t3" style="margin-top:28px">Relacionamentos</h2>
+    <div class="grade3" style="margin-top:12px">
+      <div class="cartao"><h3>N:N <span class="criterio">· CR7</span></h3><p>Médico e Especialidade, pela tabela <span class="mono destaque">medico_especialidade</span>.</p></div>
+      <div class="cartao"><h3>1:N <span class="criterio">· CR6</span></h3><p>Médico e Consulta, pela chave <span class="mono destaque">medico_id</span>.</p></div>
+      <div class="cartao"><h3>1:N <span class="criterio">· CR6</span></h3><p>Paciente e Consulta, pela chave <span class="mono destaque">paciente_id</span>.</p></div>
+    </div>
+  </div>
+  <span class="quem">Apresenta: Vitor</span><div class="rodape-num">Página 07</div>
+  <svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+
+<!-- 8 · DIAGRAMA ER -->
+<section class="slide">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+  <div class="conteudo"><h1 class="titulo t1">Banco gerado pelo Hibernate</h1></div>
+  <div class="tela-centro"><div class="imagem-clara" style="width:1040px;height:100%"><img src="img/diag_er.png" alt="Diagrama entidade-relacionamento"></div></div>
+  <span class="quem">Apresenta: Vitor</span><div class="rodape-num">Página 08</div>
+  <svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+
+<!-- 9 · CÓDIGO -->
+<section class="slide">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+  <div class="conteudo">
+    <h1 class="titulo t1">Relacionamentos no código (JPA)</h1>
+    <div class="grade2" style="margin-top:22px;grid-template-columns:1.15fr 1fr">
+<pre class="codigo"><span class="c">// Medico.java (lado dono do N:N)</span>
+<span class="a">@ManyToMany</span>
+<span class="a">@JoinTable</span>(
+    name = <span class="s">"medico_especialidade"</span>,
+    joinColumns = <span class="a">@JoinColumn</span>(name = <span class="s">"medico_id"</span>),
+    inverseJoinColumns =
+        <span class="a">@JoinColumn</span>(name = <span class="s">"especialidade_id"</span>))
+<span class="k">private</span> Set&lt;Especialidade&gt; especialidades;
+
+<span class="c">// 1:N: um médico, várias consultas</span>
+<span class="a">@OneToMany</span>(mappedBy = <span class="s">"medico"</span>)
+<span class="k">private</span> List&lt;Consulta&gt; consultas;</pre>
+      <div style="display:flex;flex-direction:column;gap:16px">
+<pre class="codigo"><span class="c">// Especialidade.java</span>
+<span class="a">@ManyToMany</span>(mappedBy = <span class="s">"especialidades"</span>)
+<span class="k">private</span> Set&lt;Medico&gt; medicos;</pre>
+<pre class="codigo"><span class="c">// Consulta.java (lado "muitos")</span>
+<span class="a">@ManyToOne</span>(optional = <span class="k">false</span>)
+<span class="a">@JoinColumn</span>(name = <span class="s">"medico_id"</span>)
+<span class="k">private</span> Medico medico;
+
+<span class="a">@ManyToOne</span>(optional = <span class="k">false</span>)
+<span class="a">@JoinColumn</span>(name = <span class="s">"paciente_id"</span>)
+<span class="k">private</span> Paciente paciente;</pre>
+      </div>
+    </div>
+  </div>
+  <span class="quem">Apresenta: Vitor</span><div class="rodape-num">Página 09</div>
+  <svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+
+<!-- 10 · H2 -->
+<section class="slide">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+  <div class="conteudo"><h1 class="titulo t1">Tabelas no console do H2</h1></div>
+  <div class="tela-centro tela"><img src="img/09_h2_resultado.png" alt="Console do H2 com as consultas SQL"></div>
+  <span class="quem">Apresenta: Vitor</span><div class="rodape-num">Página 10</div>
+  <svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+
+<!-- 11 · ESPECIALIDADES -->
+<section class="slide">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+  <div class="conteudo">
+    <h1 class="titulo t1">Especialidades <span class="criterio" style="font-size:22px">CR2 · CR7</span></h1>
+    <table class="tab" style="margin-top:20px">
+      <tr><th style="width:12%">Verbo</th><th style="width:38%">Path</th><th style="width:12%">Sucesso</th><th>Erros</th></tr>
+      <tr><td><span class="verbo v-POST">POST</span></td><td class="m">/api/especialidades</td><td>201</td><td>400 dados inválidos · 409 nome repetido</td></tr>
+      <tr><td><span class="verbo v-GET">GET</span></td><td class="m">/api/especialidades</td><td>200</td><td>-</td></tr>
+      <tr><td><span class="verbo v-GET">GET</span></td><td class="m">/api/especialidades/{id}</td><td>200</td><td>404 não encontrada</td></tr>
+      <tr><td><span class="verbo v-PUT">PUT</span></td><td class="m">/api/especialidades/{id}</td><td>200</td><td>400 · 404 · 409</td></tr>
+      <tr><td><span class="verbo v-DELETE">DELETE</span></td><td class="m">/api/especialidades/{id}</td><td>204</td><td>404</td></tr>
+      <tr><td><span class="verbo v-GET">GET</span></td><td class="m">/api/especialidades/{id}/medicos</td><td>200</td><td>404 · lista o lado N:N</td></tr>
+    </table>
+    <p class="suave" style="margin-top:18px;font-size:16px">Body: <span class="mono destaque">{ "nome", "descricao" }</span> · retorno: <span class="mono destaque">{ id, nome, descricao }</span></p>
+  </div>
+  <span class="quem">Apresenta: Lygio</span><div class="rodape-num">Página 11</div>
+  <svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+
+<!-- 12 · MÉDICOS -->
+<section class="slide">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+  <div class="conteudo">
+    <h1 class="titulo t1">Médicos <span class="criterio" style="font-size:22px">CR3 · CR6 · CR7</span></h1>
+    <table class="tab compacta" style="margin-top:16px">
+      <tr><th style="width:12%">Verbo</th><th style="width:44%">Path</th><th style="width:10%">Sucesso</th><th>Erros</th></tr>
+      <tr><td><span class="verbo v-POST">POST</span></td><td class="m">/api/medicos</td><td>201</td><td>400 · 404 · 409 CRM repetido</td></tr>
+      <tr><td><span class="verbo v-GET">GET</span></td><td class="m">/api/medicos</td><td>200</td><td>-</td></tr>
+      <tr><td><span class="verbo v-GET">GET</span></td><td class="m">/api/medicos/{id}</td><td>200</td><td>404</td></tr>
+      <tr><td><span class="verbo v-PUT">PUT</span></td><td class="m">/api/medicos/{id}</td><td>200</td><td>400 · 404 · 409</td></tr>
+      <tr><td><span class="verbo v-DELETE">DELETE</span></td><td class="m">/api/medicos/{id}</td><td>204</td><td>404 · 409 possui consultas</td></tr>
+      <tr><td><span class="verbo v-GET">GET</span></td><td class="m">/api/medicos/{id}/especialidades</td><td>200</td><td>404 · N:N</td></tr>
+      <tr><td><span class="verbo v-POST">POST</span></td><td class="m">/api/medicos/{id}/especialidades/{espId}</td><td>200</td><td>404 · vincula (N:N)</td></tr>
+      <tr><td><span class="verbo v-DELETE">DELETE</span></td><td class="m">/api/medicos/{id}/especialidades/{espId}</td><td>204</td><td>404 · 409 não vinculada</td></tr>
+      <tr><td><span class="verbo v-GET">GET</span></td><td class="m">/api/medicos/{id}/consultas</td><td>200</td><td>404 · agenda (1:N)</td></tr>
+    </table>
+  </div>
+  <span class="quem">Apresenta: Lygio</span><div class="rodape-num">Página 12</div>
+  <svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+
+<!-- 13 · PACIENTES -->
+<section class="slide">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+  <div class="conteudo">
+    <h1 class="titulo t1">Pacientes <span class="criterio" style="font-size:22px">CR4 · CR6</span></h1>
+    <table class="tab" style="margin-top:20px">
+      <tr><th style="width:12%">Verbo</th><th style="width:38%">Path</th><th style="width:12%">Sucesso</th><th>Erros</th></tr>
+      <tr><td><span class="verbo v-POST">POST</span></td><td class="m">/api/pacientes</td><td>201</td><td>400 CPF inválido · 409 CPF repetido</td></tr>
+      <tr><td><span class="verbo v-GET">GET</span></td><td class="m">/api/pacientes</td><td>200</td><td>-</td></tr>
+      <tr><td><span class="verbo v-GET">GET</span></td><td class="m">/api/pacientes/{id}</td><td>200</td><td>404</td></tr>
+      <tr><td><span class="verbo v-PUT">PUT</span></td><td class="m">/api/pacientes/{id}</td><td>200</td><td>400 · 404 · 409</td></tr>
+      <tr><td><span class="verbo v-DELETE">DELETE</span></td><td class="m">/api/pacientes/{id}</td><td>204</td><td>404 · 409 possui consultas</td></tr>
+      <tr><td><span class="verbo v-GET">GET</span></td><td class="m">/api/pacientes/{id}/consultas</td><td>200</td><td>404 · histórico (1:N)</td></tr>
+    </table>
+    <p class="suave" style="margin-top:18px;font-size:16px">Body: <span class="mono destaque">{ "nome", "cpf", "dataNascimento", "telefone", "email" }</span></p>
+  </div>
+  <span class="quem">Apresenta: Vagner</span><div class="rodape-num">Página 13</div>
+  <svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+
+<!-- 14 · CONSULTAS -->
+<section class="slide">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+  <div class="conteudo">
+    <h1 class="titulo t1">Consultas <span class="criterio" style="font-size:22px">CR5 · CR8</span></h1>
+    <table class="tab compacta" style="margin-top:16px">
+      <tr><th style="width:12%">Verbo</th><th style="width:36%">Path</th><th style="width:10%">Sucesso</th><th>Erros e observações</th></tr>
+      <tr><td><span class="verbo v-POST">POST</span></td><td class="m">/api/consultas</td><td>201</td><td>400 · 404 médico/paciente · 409 horário ocupado</td></tr>
+      <tr><td><span class="verbo v-GET">GET</span></td><td class="m">/api/consultas</td><td>200</td><td>filtros: data, medicoId, pacienteId, status</td></tr>
+      <tr><td><span class="verbo v-GET">GET</span></td><td class="m">/api/consultas/{id}</td><td>200</td><td>404</td></tr>
+      <tr><td><span class="verbo v-PUT">PUT</span></td><td class="m">/api/consultas/{id}</td><td>200</td><td>400 · 404 · 409</td></tr>
+      <tr><td><span class="verbo v-DELETE">DELETE</span></td><td class="m">/api/consultas/{id}</td><td>204</td><td>404</td></tr>
+      <tr><td><span class="verbo v-PATCH">PATCH</span></td><td class="m">/api/consultas/{id}/status</td><td>200</td><td>409 transição inválida · avisa o painel</td></tr>
+      <tr><td><span class="verbo v-POST">POST</span></td><td class="m">/api/consultas/{id}/chamar</td><td>200</td><td>409 status não permite · avisa o painel</td></tr>
+    </table>
+    <p class="suave" style="margin-top:16px;font-size:16px">Body: <span class="mono destaque">{ "dataHora", "medicoId", "pacienteId", "observacoes" }</span></p>
+  </div>
+  <span class="quem">Apresenta: Vagner</span><div class="rodape-num">Página 14</div>
+  <svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+
+<!-- 15 · CICLO DE VIDA E ERROS -->
+<section class="slide">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+  <div class="conteudo">
+    <h1 class="titulo t1">Ciclo de vida e tratamento de erros</h1>
+    <div class="imagem-clara" style="margin-top:22px;height:230px"><img src="img/diag_estados.png" alt="Diagrama de estados da consulta"></div>
+    <div class="grade2" style="margin-top:20px;grid-template-columns:1fr 1.2fr">
+      <div class="texto" style="font-size:17px"><p>Transição fora do diagrama: <b>409 Conflict</b>.</p><p>Exemplo: concluir uma consulta que ainda não foi atendida.</p></div>
+<pre class="codigo" style="font-size:13px">{ <span class="s">"status"</span>: 400, <span class="s">"erro"</span>: <span class="s">"Bad Request"</span>,
+  <span class="s">"mensagem"</span>: <span class="s">"Dados inválidos na requisição"</span>,
+  <span class="s">"campos"</span>: { <span class="s">"cpf"</span>: <span class="s">"deve estar no formato..."</span> } }</pre>
+    </div>
+  </div>
+  <span class="quem">Apresenta: Vagner</span><div class="rodape-num">Página 15</div>
+  <svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+
+<!-- 16 · WEBSOCKET -->
+<section class="slide">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+  <div class="conteudo">
+    <h1 class="titulo t1">Servidor WebSocket <span class="criterio" style="font-size:22px">CR8</span></h1>
+    <div class="grade2" style="margin-top:20px;grid-template-columns:1fr 1.1fr">
+      <div class="cartoes">
+        <div class="cartao"><h3>/ws/painel</h3><p>Mensagens <span class="mono destaque">CHAMADA</span> e <span class="mono destaque">STATUS</span>; o cliente pode mandar <span class="mono destaque">ping</span>.</p></div>
+        <div class="cartao"><h3>PainelWebSocketHandler</h3><p>Guarda as sessões abertas e envia a mesma mensagem para todos (broadcast).</p></div>
+        <div class="cartao"><h3>PainelNotifier</h3><p>Converte a consulta em JSON e só envia depois do commit no banco.</p></div>
+      </div>
+      <div class="imagem-clara" style="height:470px"><img src="img/diag_sequencia.png" alt="Diagrama de sequência"></div>
+    </div>
+  </div>
+  <span class="quem">Apresenta: Guilherme</span><div class="rodape-num">Página 16</div>
+  <svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+
+<!-- 17 · RECEPÇÃO -->
+<section class="slide">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+  <div class="conteudo"><h1 class="titulo t1">Cliente 1: tela da recepção</h1></div>
+  <div class="tela-centro tela"><img src="img/05_recepcao_apos_chamada.png" alt="Tela da recepção"></div>
+  <span class="quem">Apresenta: Guilherme</span><div class="rodape-num">Página 17</div>
+  <svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+
+<!-- 18 · PAINEL -->
+<section class="slide">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+  <div class="conteudo"><h1 class="titulo t1">Cliente 2: painel da sala de espera</h1></div>
+  <div class="tela-centro tela"><img src="img/06_painel_atendimento.png" alt="Painel de atendimento"></div>
+  <span class="quem">Apresenta: Guilherme</span><div class="rodape-num">Página 18</div>
+  <svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+
+<!-- 19 · SWAGGER -->
+<section class="slide">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+  <div class="conteudo"><h1 class="titulo t1">Documentação no Swagger UI</h1></div>
+  <div class="tela-centro tela"><img src="img/08_swagger_topo.png" alt="Swagger UI"></div>
+  <span class="quem">Apresenta: João</span><div class="rodape-num">Página 19</div>
+  <svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+
+<!-- 20 · TESTES -->
+<section class="slide">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+  <div class="conteudo">
+    <h1 class="titulo t1">Testes funcionais <span class="criterio" style="font-size:22px">CR9</span></h1>
+    <div class="grade2" style="margin-top:22px;grid-template-columns:1fr 1.3fr">
+      <div class="cartoes">
+        <div class="cartao"><h3>Postman</h3><p>28 requisições testadas uma a uma, com print de cada resultado no documento de evidência.</p></div>
+        <div class="cartao"><h3>Coleção automatizada</h3><p><span class="ok">47 requisições · 85 verificações · 0 falhas</span>, incluindo os erros 400, 404 e 409.</p></div>
+      </div>
+      <div class="tela" style="height:440px;display:flex;align-items:center"><img src="img/newman_resumo.png" alt="Resultado da coleção no Newman"></div>
+    </div>
+  </div>
+  <span class="quem">Apresenta: João</span><div class="rodape-num">Página 20</div>
+  <svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+
+<!-- 21 · CRITÉRIOS -->
+<section class="slide">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+  <div class="conteudo">
+    <h1 class="titulo t1">Onde cada critério é atendido</h1>
+    <table class="tab compacta" style="margin-top:16px">
+      <tr><th style="width:10%">Critério</th><th style="width:44%">Descrição</th><th>Onde está</th></tr>
+      <tr><td class="criterio">CR1</td><td>Documento de especificação</td><td>PDF CR1: domínio, requisitos, entidades e tabela da API</td></tr>
+      <tr><td class="criterio">CR2</td><td>CRUD da Especialidade com ORM</td><td>/api/especialidades</td></tr>
+      <tr><td class="criterio">CR3</td><td>CRUD do Médico com ORM</td><td>/api/medicos</td></tr>
+      <tr><td class="criterio">CR4</td><td>CRUD do Paciente com ORM</td><td>/api/pacientes</td></tr>
+      <tr><td class="criterio">CR5</td><td>CRUD da Consulta com ORM</td><td>/api/consultas</td></tr>
+      <tr><td class="criterio">CR6</td><td>Relacionamento um-para-muitos</td><td>Médico e Paciente → Consulta</td></tr>
+      <tr><td class="criterio">CR7</td><td>Relacionamento muitos-para-muitos</td><td>Médico ↔ Especialidade (medico_especialidade)</td></tr>
+      <tr><td class="criterio">CR8</td><td>WebSocket implementado e demonstrado</td><td>/ws/painel, recepcao.html e painel.html</td></tr>
+      <tr><td class="criterio">CR9</td><td>Testes funcionais documentados</td><td>PDF CR9: Postman e Newman</td></tr>
+    </table>
+  </div>
+  <span class="quem">Apresenta: João</span><div class="rodape-num">Página 21</div>
+  <svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+
+<!-- 22 · ENCERRAMENTO -->
+<section class="slide">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+  <div class="conteudo" style="display:flex;flex-direction:column;justify-content:center;padding-left:20px">
+    <h1 class="titulo" style="font-size:80px;margin:0 0 26px">Obrigado!</h1>
+    <div class="grade2" style="max-width:1050px">
+      <div class="cartao"><h3>Como rodar</h3><p>Java 21 instalado e:<br><span class="mono destaque">./mvnw spring-boot:run</span><br>Abrir <span class="mono destaque">localhost:8080</span></p></div>
+      <div class="cartao"><h3>Código-fonte</h3><p><span class="mono destaque">github.com/ProjetosFuncionais/<br>ClinicaProject</span></p></div>
+    </div>
+  </div>
+  <span class="quem">Apresenta: João</span><div class="rodape-num">Página 22</div>
+  <svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+
+</body>
+</html>

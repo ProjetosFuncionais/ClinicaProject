@@ -1,0 +1,130 @@
+/* Visual dos slides (CR9 e apresentação), no mesmo estilo do trabalho de referência */
+@import url("fonts.css");
+
+@page { size: 1280px 720px; margin: 0; }
+* { box-sizing: border-box; }
+html, body { margin: 0; padding: 0; }
+body { font-family: "Inter", "Helvetica Neue", Arial, sans-serif; color: #fff; background: #0b1a3f; }
+
+.slide {
+  position: relative; width: 1280px; height: 720px; overflow: hidden;
+  page-break-after: always; break-after: page;
+  background:
+    radial-gradient(ellipse 520px 360px at 14% 24%, rgba(98, 72, 210, .55), transparent 70%),
+    radial-gradient(ellipse 420px 300px at 104% 104%, rgba(124, 84, 232, .65), transparent 70%),
+    linear-gradient(160deg, #0f2153 0%, #0b1a42 55%, #0c1a45 100%);
+  -webkit-print-color-adjust: exact; print-color-adjust: exact;
+}
+.slide:last-child { page-break-after: auto; break-after: auto; }
+
+/* Cabeçalho e rodapé (iguais em todas as páginas) */
+.topo {
+  position: absolute; left: 0; right: 0; top: 0; height: 74px;
+  display: flex; align-items: center; gap: 46px; padding: 0 44px;
+  border-bottom: 1px solid rgba(255, 255, 255, .22);
+  font-family: "Chakra Petch", sans-serif; text-transform: uppercase;
+}
+.topo .disc { font-weight: 700; font-size: 14px; letter-spacing: .06em; }
+.topo .proj { font-weight: 700; font-size: 21px; letter-spacing: .05em; }
+.topo .inst { margin-left: auto; margin-right: 46px; font-weight: 600; font-size: 13px; letter-spacing: .08em; color: rgba(255,255,255,.75); }
+.topo .quadrado {
+  position: absolute; right: 44px; top: 22px; width: 30px; height: 30px; border-radius: 3px;
+  background: linear-gradient(160deg, #c94bd6, #6a2c8f 60%, #3a2160);
+  border: 1px solid rgba(255,255,255,.45); box-shadow: 0 0 0 2px rgba(0,0,0,.25);
+}
+.rodape-num {
+  position: absolute; left: 22px; bottom: 24px;
+  font-family: "Chakra Petch", sans-serif; font-weight: 700; font-size: 15px; letter-spacing: .04em;
+}
+.rodape-seta { position: absolute; right: 44px; bottom: 20px; width: 30px; height: 30px; }
+.quem {
+  position: absolute; right: 100px; bottom: 26px; font-size: 13px; color: rgba(255,255,255,.7);
+  font-family: "Chakra Petch", sans-serif; letter-spacing: .03em;
+}
+
+/* Tipografia */
+.titulo { font-family: "Chakra Petch", sans-serif; font-weight: 300; letter-spacing: .05em; line-height: 1.12; margin: 0; }
+.t1 { font-size: 48px; }
+.t2 { font-size: 34px; }
+.t3 { font-size: 26px; }
+.rotulo-cr {
+  display: inline-block; font-family: "Chakra Petch", sans-serif; font-weight: 600; font-size: 13px;
+  letter-spacing: .12em; text-transform: uppercase; color: #c9b8ff;
+  border: 1px solid rgba(201, 184, 255, .55); border-radius: 999px; padding: 5px 12px;
+}
+.conteudo { position: absolute; left: 44px; right: 44px; top: 104px; bottom: 74px; }
+.texto { font-size: 19px; line-height: 1.5; color: rgba(255,255,255,.92); }
+.texto p { margin: 0 0 12px; }
+.suave { color: rgba(255,255,255,.68); }
+.mono { font-family: "SF Mono", Menlo, Consolas, monospace; }
+.destaque { color: #b9f0e6; }
+
+/* Página de evidência: título à esquerda, print à direita */
+.evid .esq { position: absolute; left: 24px; top: 104px; width: 466px; bottom: 76px; display: flex; flex-direction: column; }
+.evid .esq .t1 { font-size: 34px; white-space: nowrap; }
+.evid .esq .t2 { font-size: 26px; margin-top: 8px; }
+.evid .caminho {
+  margin-top: auto; margin-bottom: auto; font-family: "Chakra Petch", sans-serif; font-weight: 300;
+  font-size: 28px; letter-spacing: .02em; word-break: break-word; padding-left: 24px;
+}
+.evid .info { display: flex; flex-direction: column; gap: 10px; padding-left: 24px; }
+.evid .status { display: inline-flex; align-items: center; gap: 10px; font-size: 16px; }
+.evid .status b {
+  font-family: "SF Mono", Menlo, monospace; font-size: 15px; padding: 4px 10px; border-radius: 6px;
+  background: rgba(52, 211, 153, .18); color: #6ee7b7; border: 1px solid rgba(110, 231, 183, .45);
+}
+.evid .status b.erro { background: rgba(251, 146, 60, .16); color: #fdba74; border-color: rgba(253, 186, 116, .5); }
+.evid .prova { font-size: 15px; color: rgba(255,255,255,.78); line-height: 1.45; }
+.evid .print {
+  position: absolute; right: 36px; top: 98px; width: 744px; height: 556px;
+  display: flex; align-items: center; justify-content: center;
+}
+.evid .print img {
+  max-width: 100%; max-height: 100%; border-radius: 6px; display: block;
+  border: 1px solid rgba(255,255,255,.22);
+}
+
+/* Divisória de seção */
+.secao .centro { position: absolute; left: 0; right: 0; top: 0; bottom: 0; display: flex; flex-direction: column; justify-content: center; padding: 0 120px; }
+.secao .num { font-family: "Chakra Petch", sans-serif; font-weight: 600; font-size: 18px; letter-spacing: .2em; color: #c9b8ff; text-transform: uppercase; }
+.secao .t1 { font-size: 64px; margin: 14px 0 18px; }
+.secao .texto { max-width: 820px; }
+
+/* Componentes da apresentação */
+.cartoes { display: grid; gap: 16px; }
+.cartao {
+  background: rgba(255,255,255,.06); border: 1px solid rgba(255,255,255,.16); border-radius: 12px;
+  padding: 18px 20px;
+}
+.cartao h3 { margin: 0 0 8px; font-family: "Chakra Petch", sans-serif; font-weight: 600; font-size: 21px; letter-spacing: .03em; }
+.cartao p, .cartao li { font-size: 16px; line-height: 1.45; color: rgba(255,255,255,.86); margin: 0; }
+.cartao ul { margin: 0; padding-left: 18px; }
+.cartao li { margin: 3px 0; }
+
+table.tab { width: 100%; border-collapse: collapse; font-size: 15px; }
+table.tab th {
+  text-align: left; font-family: "Chakra Petch", sans-serif; font-weight: 600; font-size: 13px; letter-spacing: .1em;
+  text-transform: uppercase; color: #c9b8ff; padding: 9px 10px; border-bottom: 1px solid rgba(255,255,255,.3);
+}
+table.tab td { padding: 8px 10px; border-bottom: 1px solid rgba(255,255,255,.12); vertical-align: top; color: rgba(255,255,255,.92); }
+table.tab td.m { font-family: "SF Mono", Menlo, monospace; font-size: 13.5px; }
+.verbo { display: inline-block; min-width: 64px; text-align: center; font-family: "SF Mono", Menlo, monospace; font-size: 12.5px; font-weight: 700; padding: 3px 6px; border-radius: 5px; }
+.v-GET { background: rgba(52,211,153,.18); color: #6ee7b7; }
+.v-POST { background: rgba(250,204,21,.16); color: #fde68a; }
+.v-PUT { background: rgba(96,165,250,.18); color: #93c5fd; }
+.v-PATCH { background: rgba(192,132,252,.2); color: #d8b4fe; }
+.v-DELETE { background: rgba(248,113,113,.18); color: #fca5a5; }
+
+pre.codigo {
+  margin: 0; font-family: "SF Mono", Menlo, Consolas, monospace; font-size: 14px; line-height: 1.5;
+  background: rgba(3, 8, 25, .55); border: 1px solid rgba(255,255,255,.14); border-radius: 10px;
+  padding: 14px 16px; color: #e2e8f0; white-space: pre; overflow: hidden;
+}
+pre.codigo .a { color: #fbbf24; } /* anotações */
+pre.codigo .k { color: #c4b5fd; } /* palavras-chave */
+pre.codigo .s { color: #86efac; } /* textos */
+pre.codigo .c { color: #64748b; } /* comentários */
+
+.imagem-clara { background: #fff; border-radius: 10px; padding: 14px; display: flex; align-items: center; justify-content: center; }
+.imagem-clara img, .tela img { max-width: 100%; max-height: 100%; display: block; }
+.tela img { border-radius: 8px; border: 1px solid rgba(255,255,255,.22); }

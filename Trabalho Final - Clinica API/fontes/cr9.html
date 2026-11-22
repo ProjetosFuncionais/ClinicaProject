@@ -1,0 +1,571 @@
+<!doctype html>
+<html lang="pt-BR"><head><meta charset="utf-8"><title>CR9 - Evidência dos Testes Funcionais</title>
+<link rel="stylesheet" href="slides.css"></head>
+<body>
+<section class="slide ">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="conteudo" style="display:flex;flex-direction:column;justify-content:center;padding-left:20px">
+    <span class="rotulo-cr" style="align-self:flex-start">Critério CR9</span>
+    <h1 class="titulo" style="font-size:66px;margin:18px 0 8px">CR9 - Testes Funcionais</h1>
+    <p class="titulo t3 suave" style="margin:0 0 34px">Evidência dos testes da API REST e do WebSocket</p>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 40px;font-size:17px;max-width:1000px"><div><b>Josiely de Oliveira Ferreira</b> <span class="suave mono">BP3053431</span></div><div><b>Pedro Henrique De Araújo Soares Rodrigues</b> <span class="suave mono">BP3060608</span></div><div><b>Vitor Oliveira Faria</b> <span class="suave mono">BP3065324</span></div><div><b>Lygio Ursos de Moraes Sobrinho</b> <span class="suave mono">BP306042X</span></div><div><b>Vagner Alves Aquino</b> <span class="suave mono">BP3079465</span></div><div><b>Guilherme Espejo Bueno</b> <span class="suave mono">BP3053822</span></div><div><b>João Chico Rafael</b> <span class="suave mono">BP3044823</span></div></div>
+    <p class="suave" style="margin-top:34px;font-size:15px">Ferramentas: Postman e Newman · Desenvolvimento Web Back-end (BRADWBK) · Prof. Luiz Gustavo Diniz de Oliveira Véras · 2026</p>
+  </div>
+  <div class="rodape-num">Página 01</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide secao">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="centro"><div class="num">CR2 · Entidade 1</div><h1 class="titulo t1">Especialidade</h1><p class="texto suave">CRUD completo de especialidades e a consulta dos médicos de cada especialidade (lado N:N).</p></div>
+  <div class="rodape-num">Página 02</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Listar Especialidades (GET)</h2>
+    <div class="caminho">/api/especialidades</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">200 OK</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR2</span>
+      <span class="prova">Retorna todas as especialidades cadastradas, ordenadas por nome.</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/01_especialidades_listar.jpeg" alt="Listar Especialidades (GET)"></div>
+  <div class="rodape-num">Página 03</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Buscar Especialidade por id (GET)</h2>
+    <div class="caminho">/api/especialidades/{id}</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">200 OK</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR2</span>
+      <span class="prova">Busca a especialidade de id 2 (Cardiologia).</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/02_especialidades_buscar.jpeg" alt="Buscar Especialidade por id (GET)"></div>
+  <div class="rodape-num">Página 04</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Cadastrar Especialidade (POST)</h2>
+    <div class="caminho">/api/especialidades</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">201 Created</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR2</span>
+      <span class="prova">Cria a especialidade Oftalmologia. A API devolve o registro com o id gerado (7).</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/03_especialidades_cadastrar.jpeg" alt="Cadastrar Especialidade (POST)"></div>
+  <div class="rodape-num">Página 05</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Alterar Especialidade (PUT)</h2>
+    <div class="caminho">/api/especialidades/{id}</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">200 OK</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR2</span>
+      <span class="prova">Atualiza o nome e a descrição da especialidade 7.</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/04_especialidades_atualizar.jpeg" alt="Alterar Especialidade (PUT)"></div>
+  <div class="rodape-num">Página 06</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Excluir Especialidade (DELETE)</h2>
+    <div class="caminho">/api/especialidades/{id}</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">204 No Content</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR2</span>
+      <span class="prova">Remove a especialidade 7. A resposta 204 não tem corpo.</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/05_especialidades_excluir.jpeg" alt="Excluir Especialidade (DELETE)"></div>
+  <div class="rodape-num">Página 07</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Médicos da Especialidade (GET)</h2>
+    <div class="caminho">/api/especialidades/{id}/medicos</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">200 OK</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR7</span>
+      <span class="prova">Lista os médicos ligados à Clínica Geral pela tabela medico_especialidade (relacionamento N:N).</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/06_especialidades_medicos_nn.jpeg" alt="Médicos da Especialidade (GET)"></div>
+  <div class="rodape-num">Página 08</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide secao">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="centro"><div class="num">CR3 · Entidade 2</div><h1 class="titulo t1">Médico</h1><p class="texto suave">CRUD de médicos e as rotas que vinculam e desvinculam especialidades (N:N), além da agenda do médico (1:N).</p></div>
+  <div class="rodape-num">Página 09</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Listar Médicos (GET)</h2>
+    <div class="caminho">/api/medicos</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">200 OK</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR3</span>
+      <span class="prova">Cada médico vem com a lista das suas especialidades.</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/07_medicos_listar.jpeg" alt="Listar Médicos (GET)"></div>
+  <div class="rodape-num">Página 10</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Buscar Médico por id (GET)</h2>
+    <div class="caminho">/api/medicos/{id}</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">200 OK</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR3</span>
+      <span class="prova">Dra. Ana Souza, com Cardiologia e Clínica Geral.</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/08_medicos_buscar.jpeg" alt="Buscar Médico por id (GET)"></div>
+  <div class="rodape-num">Página 11</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Cadastrar Médico (POST)</h2>
+    <div class="caminho">/api/medicos</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">201 Created</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR3 · CR7</span>
+      <span class="prova">Cria o Dr. Romario Silva (id 5) já vinculado a duas especialidades pelo campo especialidadeIds.</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/09_medicos_cadastrar.jpeg" alt="Cadastrar Médico (POST)"></div>
+  <div class="rodape-num">Página 12</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Alterar Médico (PUT)</h2>
+    <div class="caminho">/api/medicos/{id}</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">200 OK</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR3</span>
+      <span class="prova">Atualiza o e-mail e a sala do médico 5.</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/10_medicos_atualizar.jpeg" alt="Alterar Médico (PUT)"></div>
+  <div class="rodape-num">Página 13</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Desvincular Especialidade (DELETE)</h2>
+    <div class="caminho">/api/medicos/{id}/especialidades/{id}</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">204 No Content</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR7</span>
+      <span class="prova">Remove a Cardiologia do médico 5 na tabela de ligação.</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/11_medicos_desvincular_nn.jpeg" alt="Desvincular Especialidade (DELETE)"></div>
+  <div class="rodape-num">Página 14</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Especialidades do Médico (GET)</h2>
+    <div class="caminho">/api/medicos/{id}/especialidades</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">200 OK</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR7</span>
+      <span class="prova">Depois da remoção, o médico 5 fica só com Clínica Geral.</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/12_medicos_especialidades_nn.jpeg" alt="Especialidades do Médico (GET)"></div>
+  <div class="rodape-num">Página 15</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Vincular Especialidade (POST)</h2>
+    <div class="caminho">/api/medicos/{id}/especialidades/{id}</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">200 OK</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR7</span>
+      <span class="prova">Vincula a Cardiologia de novo: o médico volta a ter duas especialidades.</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/13_medicos_vincular_nn.jpeg" alt="Vincular Especialidade (POST)"></div>
+  <div class="rodape-num">Página 16</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Excluir Médico (DELETE)</h2>
+    <div class="caminho">/api/medicos/{id}</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">204 No Content</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR3</span>
+      <span class="prova">Remove o médico 5, que não tinha consultas. Médico com consultas é recusado com 409.</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/14_medicos_excluir.jpeg" alt="Excluir Médico (DELETE)"></div>
+  <div class="rodape-num">Página 17</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Consultas do Médico (GET)</h2>
+    <div class="caminho">/api/medicos/{id}/consultas</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">200 OK</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR6</span>
+      <span class="prova">Agenda do Dr. Bruno Lima: um médico tem várias consultas (relacionamento 1:N).</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/15_medicos_consultas_1n.jpeg" alt="Consultas do Médico (GET)"></div>
+  <div class="rodape-num">Página 18</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide secao">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="centro"><div class="num">CR4 · Entidade 3</div><h1 class="titulo t1">Paciente</h1><p class="texto suave">CRUD de pacientes, com CPF único, e o histórico de consultas do paciente (1:N).</p></div>
+  <div class="rodape-num">Página 19</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Listar Pacientes (GET)</h2>
+    <div class="caminho">/api/pacientes</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">200 OK</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR4</span>
+      <span class="prova">Retorna os pacientes ordenados por nome, com o CPF formatado.</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/16_pacientes_listar.jpeg" alt="Listar Pacientes (GET)"></div>
+  <div class="rodape-num">Página 20</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Buscar Paciente por id (GET)</h2>
+    <div class="caminho">/api/pacientes/{id}</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">200 OK</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR4</span>
+      <span class="prova">Busca a paciente de id 2 (Maria Oliveira).</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/17_pacientes_buscar.jpeg" alt="Buscar Paciente por id (GET)"></div>
+  <div class="rodape-num">Página 21</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Cadastrar Paciente (POST)</h2>
+    <div class="caminho">/api/pacientes</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">201 Created</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR4</span>
+      <span class="prova">Cria o paciente Lygio Sobrinho. CPF inválido devolve 400 e CPF repetido devolve 409.</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/18_pacientes_cadastrar.jpeg" alt="Cadastrar Paciente (POST)"></div>
+  <div class="rodape-num">Página 22</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Alterar Paciente (PUT)</h2>
+    <div class="caminho">/api/pacientes/{id}</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">200 OK</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR4</span>
+      <span class="prova">Atualiza o telefone e a data de nascimento do paciente.</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/19_pacientes_atualizar.jpeg" alt="Alterar Paciente (PUT)"></div>
+  <div class="rodape-num">Página 23</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Excluir Paciente (DELETE)</h2>
+    <div class="caminho">/api/pacientes/{id}</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">204 No Content</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR4</span>
+      <span class="prova">Remove o paciente. Só é permitido quando ele não tem consultas.</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/20_pacientes_excluir.jpeg" alt="Excluir Paciente (DELETE)"></div>
+  <div class="rodape-num">Página 24</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Histórico do Paciente (GET)</h2>
+    <div class="caminho">/api/pacientes/{id}/consultas</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">200 OK</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR6</span>
+      <span class="prova">Consultas da Maria Oliveira: um paciente tem várias consultas (relacionamento 1:N).</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/21_pacientes_historico_1n.jpeg" alt="Histórico do Paciente (GET)"></div>
+  <div class="rodape-num">Página 25</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide secao">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="centro"><div class="num">CR5 · Entidade 4</div><h1 class="titulo t1">Consulta</h1><p class="texto suave">CRUD de consultas, regras de horário e de status, e as duas rotas que avisam o painel pelo WebSocket.</p></div>
+  <div class="rodape-num">Página 26</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Listar Consultas (GET)</h2>
+    <div class="caminho">/api/consultas</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">200 OK</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR5</span>
+      <span class="prova">Lista as consultas. Aceita filtros opcionais por data, médico, paciente e status.</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/22_consultas_listar.jpeg" alt="Listar Consultas (GET)"></div>
+  <div class="rodape-num">Página 27</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Buscar Consulta por id (GET)</h2>
+    <div class="caminho">/api/consultas/{id}</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">200 OK</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR5</span>
+      <span class="prova">Consulta 1, com o resumo do médico e do paciente.</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/23_consultas_buscar.jpeg" alt="Buscar Consulta por id (GET)"></div>
+  <div class="rodape-num">Página 28</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Agendar Consulta (POST)</h2>
+    <div class="caminho">/api/consultas</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">201 Created</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR5</span>
+      <span class="prova">Cria a consulta 38 com status inicial AGENDADA. Mesmo médico no mesmo horário devolve 409.</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/24_consultas_agendar.jpeg" alt="Agendar Consulta (POST)"></div>
+  <div class="rodape-num">Página 29</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Alterar Consulta (PUT)</h2>
+    <div class="caminho">/api/consultas/{id}</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">200 OK</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR5</span>
+      <span class="prova">Reagenda a consulta 3 para 10/05/2027.</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/25_consultas_atualizar.jpeg" alt="Alterar Consulta (PUT)"></div>
+  <div class="rodape-num">Página 30</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Excluir Consulta (DELETE)</h2>
+    <div class="caminho">/api/consultas/{id}</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">204 No Content</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR5</span>
+      <span class="prova">Remove a consulta 3.</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/26_consultas_excluir.jpeg" alt="Excluir Consulta (DELETE)"></div>
+  <div class="rodape-num">Página 31</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Alterar Status (PATCH)</h2>
+    <div class="caminho">/api/consultas/{id}/status</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">200 OK</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR5 · CR8</span>
+      <span class="prova">Passa a consulta 38 para EM_ATENDIMENTO e envia o evento STATUS ao painel pelo WebSocket.</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/27_consultas_status.jpeg" alt="Alterar Status (PATCH)"></div>
+  <div class="rodape-num">Página 32</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Chamar Paciente (POST)</h2>
+    <div class="caminho">/api/consultas/{id}/chamar</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">200 OK</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR8</span>
+      <span class="prova">Muda a consulta 1 para CHAMADA e envia o evento CHAMADA ao painel da sala de espera.</span>
+    </div>
+  </div>
+  <div class="print"><img src="prints/28_consultas_chamar.jpeg" alt="Chamar Paciente (POST)"></div>
+  <div class="rodape-num">Página 33</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide secao">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="centro"><div class="num">CR8 · WebSocket</div><h1 class="titulo t1">Painel em tempo real</h1><p class="texto suave">Clientes web conectados em ws://localhost:8080/ws/painel recebem as chamadas sem recarregar a página.</p></div>
+  <div class="rodape-num">Página 34</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR8 - WebSocket</h1>
+    <h2 class="titulo t2">Recepção conectada</h2>
+    <div class="caminho">/recepcao.html</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">Conectada</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR8</span>
+      <span class="prova">Consultas do dia. O indicador &quot;Tempo real ativo&quot; mostra que a página está conectada ao WebSocket.</span>
+    </div>
+  </div>
+  <div class="print"><img src="img/02_recepcao_inicial.png" alt="Recepção conectada"></div>
+  <div class="rodape-num">Página 35</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR8 - WebSocket</h1>
+    <h2 class="titulo t2">Painel recebe a chamada</h2>
+    <div class="caminho">/painel.html</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">Evento CHAMADA</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR8</span>
+      <span class="prova">Ao clicar em Chamar na recepção, o painel mostra João Pereira, Sala 1 e Dra. Ana Souza na hora.</span>
+    </div>
+  </div>
+  <div class="print"><img src="img/04_painel_chamada.png" alt="Painel recebe a chamada"></div>
+  <div class="rodape-num">Página 36</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR8 - WebSocket</h1>
+    <h2 class="titulo t2">Recepção atualizada</h2>
+    <div class="caminho">/recepcao.html</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">Evento CHAMADA</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR8</span>
+      <span class="prova">A mesma mensagem atualiza a tabela da recepção e aparece no quadro de atividade em tempo real.</span>
+    </div>
+  </div>
+  <div class="print"><img src="img/05_recepcao_apos_chamada.png" alt="Recepção atualizada"></div>
+  <div class="rodape-num">Página 37</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR8 - WebSocket</h1>
+    <h2 class="titulo t2">Situação das salas</h2>
+    <div class="caminho">/painel.html</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">Evento STATUS</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR8</span>
+      <span class="prova">Pedro Santos é chamado, João Pereira vai para as chamadas anteriores e a Sala 1 aparece em atendimento.</span>
+    </div>
+  </div>
+  <div class="print"><img src="img/06_painel_atendimento.png" alt="Situação das salas"></div>
+  <div class="rodape-num">Página 38</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide secao">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="centro"><div class="num">CR9 · Execução automatizada</div><h1 class="titulo t1">Coleção completa</h1><p class="texto suave">A coleção do repositório (postman/clinica-api.postman_collection.json) foi executada com o Newman, o executor de linha de comando do Postman, cobrindo também os casos de erro.</p></div>
+  <div class="rodape-num">Página 39</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Resultado da coleção</h2>
+    <div class="caminho">47 requisições</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">85 verificações</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR9</span>
+      <span class="prova">Todas as 85 verificações passaram, sem falhas. Cada requisição confere o status HTTP e o conteúdo da resposta.</span>
+    </div>
+  </div>
+  <div class="print"><img src="img/newman_resumo.png" alt="Resultado da coleção"></div>
+  <div class="rodape-num">Página 40</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Organização dos testes</h2>
+    <div class="caminho">7 pastas</div>
+    <div class="info">
+      <span class="status">Resultado <b class="">0 falhas</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR9</span>
+      <span class="prova">CRUD das quatro entidades, relacionamento N:N, fluxo do atendimento (WebSocket) e exclusões.</span>
+    </div>
+  </div>
+  <div class="print"><img src="img/newman_pastas.png" alt="Organização dos testes"></div>
+  <div class="rodape-num">Página 41</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+<section class="slide evid">
+  <header class="topo"><span class="disc">BRADWBK</span><span class="proj">Clínica API</span><span class="inst">IFSP · Bragança Paulista</span><span class="quadrado"></span></header>
+<div class="esq">
+    <h1 class="titulo t1">CR9 - Testes Funcionais</h1>
+    <h2 class="titulo t2">Caso de erro: horário ocupado</h2>
+    <div class="caminho">/api/consultas</div>
+    <div class="info">
+      <span class="status">Resultado <b class="erro">409 Conflict</b></span>
+      <span class="rotulo-cr" style="align-self:flex-start">CR9</span>
+      <span class="prova">Agendar o mesmo médico no mesmo horário é recusado com 409. A coleção também testa 400 (dados inválidos) e 404 (registro inexistente).</span>
+    </div>
+  </div>
+  <div class="print"><img src="img/newman_erro409.png" alt="Caso de erro: horário ocupado"></div>
+  <div class="rodape-num">Página 42</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
+</section>
+</body></html>
