@@ -9,7 +9,7 @@
     <h1 class="titulo" style="font-size:66px;margin:18px 0 8px">CR9 - Testes Funcionais</h1>
     <p class="titulo t3 suave" style="margin:0 0 34px">Evidência dos testes da API REST e do WebSocket</p>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 40px;font-size:17px;max-width:1000px"><div><b>Josiely de Oliveira Ferreira</b> <span class="suave mono">BP3053431</span></div><div><b>Pedro Henrique De Araújo Soares Rodrigues</b> <span class="suave mono">BP3060608</span></div><div><b>Vitor Oliveira Faria</b> <span class="suave mono">BP3065324</span></div><div><b>Lygio Ursos de Moraes Sobrinho</b> <span class="suave mono">BP306042X</span></div><div><b>Vagner Alves Aquino</b> <span class="suave mono">BP3079465</span></div><div><b>Guilherme Espejo Bueno</b> <span class="suave mono">BP3053822</span></div><div><b>João Chico Rafael</b> <span class="suave mono">BP3044823</span></div></div>
-    <p class="suave" style="margin-top:34px;font-size:15px">Ferramentas: Postman e Newman · Desenvolvimento Web Back-end (BRADWBK) · Prof. Luiz Gustavo Diniz de Oliveira Véras · 2026</p>
+    <p class="suave" style="margin-top:34px;font-size:15px">Ferramentas: Postman, Swagger UI e Newman · Desenvolvimento Web Back-end (BRADWBK) · Prof. Luiz Gustavo Diniz de Oliveira Véras · 2026</p>
   </div>
   <div class="rodape-num">Página 01</div><svg class="rodape-seta" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l6 6-6 6M13 6l6 6-6 6"/></svg>
 </section>
@@ -57,7 +57,7 @@
     <div class="info">
       <span class="status">Resultado <b class="">201 Created</b></span>
       <span class="rotulo-cr" style="align-self:flex-start">CR2</span>
-      <span class="prova">Cria a especialidade Oftalmologia. A API devolve o registro com o id gerado (7).</span>
+      <span class="prova">Cria a especialidade Oftalmologia. A API devolve o registro com o id gerado (5). Executado no Swagger UI.</span>
     </div>
   </div>
   <div class="print"><img src="prints/03_especialidades_cadastrar.jpeg" alt="Cadastrar Especialidade (POST)"></div>
@@ -72,7 +72,7 @@
     <div class="info">
       <span class="status">Resultado <b class="">200 OK</b></span>
       <span class="rotulo-cr" style="align-self:flex-start">CR2</span>
-      <span class="prova">Atualiza o nome e a descrição da especialidade 7.</span>
+      <span class="prova">Atualiza a descrição da especialidade 5. Executado no Swagger UI.</span>
     </div>
   </div>
   <div class="print"><img src="prints/04_especialidades_atualizar.jpeg" alt="Alterar Especialidade (PUT)"></div>
@@ -87,7 +87,7 @@
     <div class="info">
       <span class="status">Resultado <b class="">204 No Content</b></span>
       <span class="rotulo-cr" style="align-self:flex-start">CR2</span>
-      <span class="prova">Remove a especialidade 7. A resposta 204 não tem corpo.</span>
+      <span class="prova">Remove a especialidade 5. A resposta 204 não tem corpo. Executado no Swagger UI.</span>
     </div>
   </div>
   <div class="print"><img src="prints/05_especialidades_excluir.jpeg" alt="Excluir Especialidade (DELETE)"></div>
@@ -292,7 +292,7 @@
     <div class="info">
       <span class="status">Resultado <b class="">201 Created</b></span>
       <span class="rotulo-cr" style="align-self:flex-start">CR4</span>
-      <span class="prova">Cria o paciente Lygio Sobrinho. CPF inválido devolve 400 e CPF repetido devolve 409.</span>
+      <span class="prova">Cria o paciente Lygio Sobrinho com o id 5. CPF inválido devolve 400 e CPF repetido devolve 409. Executado no Swagger UI.</span>
     </div>
   </div>
   <div class="print"><img src="prints/18_pacientes_cadastrar.jpeg" alt="Cadastrar Paciente (POST)"></div>
@@ -307,7 +307,7 @@
     <div class="info">
       <span class="status">Resultado <b class="">200 OK</b></span>
       <span class="rotulo-cr" style="align-self:flex-start">CR4</span>
-      <span class="prova">Atualiza o telefone e a data de nascimento do paciente.</span>
+      <span class="prova">Atualiza o telefone e a data de nascimento do paciente 5. Executado no Swagger UI.</span>
     </div>
   </div>
   <div class="print"><img src="prints/19_pacientes_atualizar.jpeg" alt="Alterar Paciente (PUT)"></div>
@@ -322,7 +322,7 @@
     <div class="info">
       <span class="status">Resultado <b class="">204 No Content</b></span>
       <span class="rotulo-cr" style="align-self:flex-start">CR4</span>
-      <span class="prova">Remove o paciente. Só é permitido quando ele não tem consultas.</span>
+      <span class="prova">Remove o paciente 5. Só é permitido quando ele não tem consultas. Executado no Swagger UI.</span>
     </div>
   </div>
   <div class="print"><img src="prints/20_pacientes_excluir.jpeg" alt="Excluir Paciente (DELETE)"></div>
@@ -402,7 +402,7 @@
     <div class="info">
       <span class="status">Resultado <b class="">200 OK</b></span>
       <span class="rotulo-cr" style="align-self:flex-start">CR5</span>
-      <span class="prova">Reagenda a consulta 3 para 10/05/2027.</span>
+      <span class="prova">Reagenda a consulta 3 para 10/05/2027; o status continua AGENDADA. Executado no Swagger UI.</span>
     </div>
   </div>
   <div class="print"><img src="prints/25_consultas_atualizar.jpeg" alt="Alterar Consulta (PUT)"></div>
@@ -417,7 +417,7 @@
     <div class="info">
       <span class="status">Resultado <b class="">204 No Content</b></span>
       <span class="rotulo-cr" style="align-self:flex-start">CR5</span>
-      <span class="prova">Remove a consulta 3.</span>
+      <span class="prova">Remove a consulta 3. Executado no Swagger UI.</span>
     </div>
   </div>
   <div class="print"><img src="prints/26_consultas_excluir.jpeg" alt="Excluir Consulta (DELETE)"></div>

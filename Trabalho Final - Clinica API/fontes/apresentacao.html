@@ -106,10 +106,8 @@
       </div>
       <div class="camadas">
         <div class="camada"><b>controller</b><span>rotas REST da API</span></div>
-        <div class="seta-baixo">▼</div>
-        <div class="camada"><b>service</b><span>regras de negócio</span></div>
-        <div class="seta-baixo">▼</div>
-        <div class="camada"><b>repository</b><span>acesso ao banco (JPA)</span></div>
+          <div class="camada"><b>service</b><span>regras de negócio</span></div>
+          <div class="camada"><b>repository</b><span>acesso ao banco (JPA)</span></div>
         <div class="camada" style="margin-top:8px"><b>websocket · dto · exception</b><span></span></div>
       </div>
     </div>
@@ -407,7 +405,7 @@
     <h1 class="titulo t1">Testes funcionais <span class="criterio" style="font-size:22px">CR9</span></h1>
     <div class="grade2" style="margin-top:22px;grid-template-columns:1fr 1.3fr">
       <div class="cartoes">
-        <div class="cartao"><h3>Postman</h3><p>28 requisições testadas uma a uma, com print de cada resultado no documento de evidência.</p></div>
+        <div class="cartao"><h3>Postman e Swagger UI</h3><p>28 requisições testadas uma a uma no Postman e no Swagger UI, com print de cada resultado no documento de evidência.</p></div>
         <div class="cartao"><h3>Coleção automatizada</h3><p><span class="ok">47 requisições · 85 verificações · 0 falhas</span>, incluindo os erros 400, 404 e 409.</p></div>
       </div>
       <div class="tela" style="height:440px;display:flex;align-items:center"><img src="img/newman_resumo.png" alt="Resultado da coleção no Newman"></div>
@@ -429,10 +427,10 @@
       <tr><td class="criterio">CR3</td><td>CRUD do Médico com ORM</td><td>/api/medicos</td></tr>
       <tr><td class="criterio">CR4</td><td>CRUD do Paciente com ORM</td><td>/api/pacientes</td></tr>
       <tr><td class="criterio">CR5</td><td>CRUD da Consulta com ORM</td><td>/api/consultas</td></tr>
-      <tr><td class="criterio">CR6</td><td>Relacionamento um-para-muitos</td><td>Médico e Paciente → Consulta</td></tr>
-      <tr><td class="criterio">CR7</td><td>Relacionamento muitos-para-muitos</td><td>Médico ↔ Especialidade (medico_especialidade)</td></tr>
+      <tr><td class="criterio">CR6</td><td>Relacionamento um-para-muitos</td><td>Médico e Consulta; Paciente e Consulta</td></tr>
+      <tr><td class="criterio">CR7</td><td>Relacionamento muitos-para-muitos</td><td>Médico e Especialidade (medico_especialidade)</td></tr>
       <tr><td class="criterio">CR8</td><td>WebSocket implementado e demonstrado</td><td>/ws/painel, recepcao.html e painel.html</td></tr>
-      <tr><td class="criterio">CR9</td><td>Testes funcionais documentados</td><td>PDF CR9: Postman e Newman</td></tr>
+      <tr><td class="criterio">CR9</td><td>Testes funcionais documentados</td><td>PDF CR9: Postman, Swagger UI e Newman</td></tr>
     </table>
   </div>
   <span class="quem">Apresenta: João</span><div class="rodape-num">Página 21</div>

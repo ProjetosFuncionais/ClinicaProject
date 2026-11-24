@@ -21,9 +21,9 @@ PAGINAS = [
     ("secao", ("CR2 · Entidade 1", "Especialidade", "CRUD completo de especialidades e a consulta dos médicos de cada especialidade (lado N:N).")),
     ("teste", ("01_especialidades_listar", "Listar Especialidades (GET)", "/api/especialidades", "200 OK", "CR2", "Retorna todas as especialidades cadastradas, ordenadas por nome.")),
     ("teste", ("02_especialidades_buscar", "Buscar Especialidade por id (GET)", "/api/especialidades/{id}", "200 OK", "CR2", "Busca a especialidade de id 2 (Cardiologia).")),
-    ("teste", ("03_especialidades_cadastrar", "Cadastrar Especialidade (POST)", "/api/especialidades", "201 Created", "CR2", "Cria a especialidade Oftalmologia. A API devolve o registro com o id gerado (7).")),
-    ("teste", ("04_especialidades_atualizar", "Alterar Especialidade (PUT)", "/api/especialidades/{id}", "200 OK", "CR2", "Atualiza o nome e a descrição da especialidade 7.")),
-    ("teste", ("05_especialidades_excluir", "Excluir Especialidade (DELETE)", "/api/especialidades/{id}", "204 No Content", "CR2", "Remove a especialidade 7. A resposta 204 não tem corpo.")),
+    ("teste", ("03_especialidades_cadastrar", "Cadastrar Especialidade (POST)", "/api/especialidades", "201 Created", "CR2", "Cria a especialidade Oftalmologia. A API devolve o registro com o id gerado (5). Executado no Swagger UI.")),
+    ("teste", ("04_especialidades_atualizar", "Alterar Especialidade (PUT)", "/api/especialidades/{id}", "200 OK", "CR2", "Atualiza a descrição da especialidade 5. Executado no Swagger UI.")),
+    ("teste", ("05_especialidades_excluir", "Excluir Especialidade (DELETE)", "/api/especialidades/{id}", "204 No Content", "CR2", "Remove a especialidade 5. A resposta 204 não tem corpo. Executado no Swagger UI.")),
     ("teste", ("06_especialidades_medicos_nn", "Médicos da Especialidade (GET)", "/api/especialidades/{id}/medicos", "200 OK", "CR7", "Lista os médicos ligados à Clínica Geral pela tabela medico_especialidade (relacionamento N:N).")),
 
     ("secao", ("CR3 · Entidade 2", "Médico", "CRUD de médicos e as rotas que vinculam e desvinculam especialidades (N:N), além da agenda do médico (1:N).")),
@@ -40,17 +40,17 @@ PAGINAS = [
     ("secao", ("CR4 · Entidade 3", "Paciente", "CRUD de pacientes, com CPF único, e o histórico de consultas do paciente (1:N).")),
     ("teste", ("16_pacientes_listar", "Listar Pacientes (GET)", "/api/pacientes", "200 OK", "CR4", "Retorna os pacientes ordenados por nome, com o CPF formatado.")),
     ("teste", ("17_pacientes_buscar", "Buscar Paciente por id (GET)", "/api/pacientes/{id}", "200 OK", "CR4", "Busca a paciente de id 2 (Maria Oliveira).")),
-    ("teste", ("18_pacientes_cadastrar", "Cadastrar Paciente (POST)", "/api/pacientes", "201 Created", "CR4", "Cria o paciente Lygio Sobrinho. CPF inválido devolve 400 e CPF repetido devolve 409.")),
-    ("teste", ("19_pacientes_atualizar", "Alterar Paciente (PUT)", "/api/pacientes/{id}", "200 OK", "CR4", "Atualiza o telefone e a data de nascimento do paciente.")),
-    ("teste", ("20_pacientes_excluir", "Excluir Paciente (DELETE)", "/api/pacientes/{id}", "204 No Content", "CR4", "Remove o paciente. Só é permitido quando ele não tem consultas.")),
+    ("teste", ("18_pacientes_cadastrar", "Cadastrar Paciente (POST)", "/api/pacientes", "201 Created", "CR4", "Cria o paciente Lygio Sobrinho com o id 5. CPF inválido devolve 400 e CPF repetido devolve 409. Executado no Swagger UI.")),
+    ("teste", ("19_pacientes_atualizar", "Alterar Paciente (PUT)", "/api/pacientes/{id}", "200 OK", "CR4", "Atualiza o telefone e a data de nascimento do paciente 5. Executado no Swagger UI.")),
+    ("teste", ("20_pacientes_excluir", "Excluir Paciente (DELETE)", "/api/pacientes/{id}", "204 No Content", "CR4", "Remove o paciente 5. Só é permitido quando ele não tem consultas. Executado no Swagger UI.")),
     ("teste", ("21_pacientes_historico_1n", "Histórico do Paciente (GET)", "/api/pacientes/{id}/consultas", "200 OK", "CR6", "Consultas da Maria Oliveira: um paciente tem várias consultas (relacionamento 1:N).")),
 
     ("secao", ("CR5 · Entidade 4", "Consulta", "CRUD de consultas, regras de horário e de status, e as duas rotas que avisam o painel pelo WebSocket.")),
     ("teste", ("22_consultas_listar", "Listar Consultas (GET)", "/api/consultas", "200 OK", "CR5", "Lista as consultas. Aceita filtros opcionais por data, médico, paciente e status.")),
     ("teste", ("23_consultas_buscar", "Buscar Consulta por id (GET)", "/api/consultas/{id}", "200 OK", "CR5", "Consulta 1, com o resumo do médico e do paciente.")),
     ("teste", ("24_consultas_agendar", "Agendar Consulta (POST)", "/api/consultas", "201 Created", "CR5", "Cria a consulta 38 com status inicial AGENDADA. Mesmo médico no mesmo horário devolve 409.")),
-    ("teste", ("25_consultas_atualizar", "Alterar Consulta (PUT)", "/api/consultas/{id}", "200 OK", "CR5", "Reagenda a consulta 3 para 10/05/2027.")),
-    ("teste", ("26_consultas_excluir", "Excluir Consulta (DELETE)", "/api/consultas/{id}", "204 No Content", "CR5", "Remove a consulta 3.")),
+    ("teste", ("25_consultas_atualizar", "Alterar Consulta (PUT)", "/api/consultas/{id}", "200 OK", "CR5", "Reagenda a consulta 3 para 10/05/2027; o status continua AGENDADA. Executado no Swagger UI.")),
+    ("teste", ("26_consultas_excluir", "Excluir Consulta (DELETE)", "/api/consultas/{id}", "204 No Content", "CR5", "Remove a consulta 3. Executado no Swagger UI.")),
     ("teste", ("27_consultas_status", "Alterar Status (PATCH)", "/api/consultas/{id}/status", "200 OK", "CR5 · CR8", "Passa a consulta 38 para EM_ATENDIMENTO e envia o evento STATUS ao painel pelo WebSocket.")),
     ("teste", ("28_consultas_chamar", "Chamar Paciente (POST)", "/api/consultas/{id}/chamar", "200 OK", "CR8", "Muda a consulta 1 para CHAMADA e envia o evento CHAMADA ao painel da sala de espera.")),
 
@@ -85,7 +85,7 @@ def capa():
     <h1 class="titulo" style="font-size:66px;margin:18px 0 8px">CR9 - Testes Funcionais</h1>
     <p class="titulo t3 suave" style="margin:0 0 34px">Evidência dos testes da API REST e do WebSocket</p>
     <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 40px;font-size:17px;max-width:1000px">{nomes}</div>
-    <p class="suave" style="margin-top:34px;font-size:15px">Ferramentas: Postman e Newman · Desenvolvimento Web Back-end (BRADWBK) · Prof. Luiz Gustavo Diniz de Oliveira Véras · 2026</p>
+    <p class="suave" style="margin-top:34px;font-size:15px">Ferramentas: Postman, Swagger UI e Newman · Desenvolvimento Web Back-end (BRADWBK) · Prof. Luiz Gustavo Diniz de Oliveira Véras · 2026</p>
   </div>'''
 
 
