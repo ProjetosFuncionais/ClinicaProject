@@ -5,3 +5,10 @@ data/
 .vscode/
 *.iml
 .DS_Store
+
+# Material de apoio que não faz parte da entrega
+trabalho de referencia/
+prints_dos_resultados/
+docs/
+[[]BRADWBK[]]*.pdf
+Entrega - Clinica API.zip
